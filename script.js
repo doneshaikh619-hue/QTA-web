@@ -892,15 +892,9 @@
       showToast('Table booked successfully! See you at OTAQ.', 'success');
       resForm.reset();
       if (resDateInput) resDateInput.value = new Date().toISOString().split('T')[0];
-      } catch (err) {
-        if (resStatusMsg) {
-          resStatusMsg.className = 'form-status-msg error';
-          resStatusMsg.textContent = err.message || 'Error booking table. Please call us directly.';
-        }
-      } finally {
-        btnSubmitRes.disabled = false;
-        btnSubmitRes.querySelector('span').textContent = 'Confirm Table Reservation';
-      }
+
+      btnSubmitRes.disabled = false;
+      btnSubmitRes.querySelector('span').textContent = 'Confirm Table Reservation';
     });
   }
 
