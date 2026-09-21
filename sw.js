@@ -1,10 +1,12 @@
-const CACHE_NAME = 'otaq-shell-v2';
+const CACHE_NAME = 'otaq-shell-v3';
 const STATIC_ASSETS = [
   './',
   './index.html',
   './style.css',
   './script.js',
   './manifest.webmanifest',
+  './assets/icon-192.png',
+  './assets/icon-512.png',
   './assets/icon-192.svg',
   './assets/icon-512.svg'
 ];

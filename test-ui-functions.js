@@ -87,6 +87,7 @@ const ids = [
   'btn-submit-res', 'res-date', 'res-time', 'res-guests', 'res-seating', 'res-notes',
   'offers-ribbon', 'ribbon-text', 'ribbon-code', 'ribbon-apply-btn', 'ribbon-close-btn',
   'vip-install-backdrop', 'btn-close-vip-modal', 'btn-vip-install', 'btn-vip-notify',
+  'btn-download-shortcut',
   'vip-instructions', 'inst-ios', 'inst-android', 'floating-app-trigger', 'footer-install-btn',
   'year'
 ];

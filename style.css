@@ -1581,26 +1581,62 @@ blockquote{margin:28px 0 auto;font-family:'Playfair Display',serif;font-size:20p
 }
 .vip-install-instructions {
   margin-top: 14px;
-  padding: 14px;
-  background: rgba(0,0,0,0.5);
-  border: 1px dashed rgba(214,169,97,0.3);
-  border-radius: 12px;
-  font-size: 12px;
-  color: #c9bca8;
-  line-height: 1.5;
+  padding: 16px;
+  background: rgba(22, 17, 12, 0.95);
+  border: 1.5px solid var(--gold);
+  border-radius: 14px;
+  font-size: 13px;
+  color: #f7f1e7;
+  line-height: 1.6;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  animation: pulseGoldBorder 2s infinite alternate;
+}
+@keyframes pulseGoldBorder {
+  0% { border-color: rgba(214,169,97,0.4); }
+  100% { border-color: rgba(214,169,97,1); box-shadow: 0 0 16px rgba(214,169,97,0.3); }
 }
 .inst-step {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .inst-step:last-child {
   margin-bottom: 0;
 }
+.inst-step strong {
+  color: var(--gold-light);
+  display: block;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
 .inst-icon {
-  background: rgba(255,255,255,0.12);
-  padding: 2px 6px;
-  border-radius: 4px;
-  color: #d6a961;
+  background: rgba(214,169,97,0.25);
+  border: 1px solid var(--gold);
+  padding: 2px 7px;
+  border-radius: 6px;
+  color: #fff;
   font-weight: 700;
+  display: inline-block;
+  margin: 0 2px;
+}
+.btn-download-shortcut {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #edd3a4;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all .2s;
+}
+.btn-download-shortcut:hover {
+  background: rgba(214,169,97,0.2);
+  border-color: var(--gold);
 }
 
 /* Floating Sticky App Trigger Button (Always visible on mobile bottom) */

@@ -989,36 +989,85 @@
   });
 
   // Capture beforeinstallprompt for Chrome Android
+  let installRequested = false;
+
   window.addEventListener('beforeinstallprompt', e => {
     e.preventDefault();
     state.deferredPrompt = e;
+    console.log('beforeinstallprompt captured!');
+    if (installRequested) {
+      triggerNativeInstall();
+    }
   });
+
+  async function triggerNativeInstall() {
+    if (state.deferredPrompt) {
+      try {
+        state.deferredPrompt.prompt();
+        const { outcome } = await state.deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          showToast('🎉 OTAQ App successfully installed to your phone screen!', 'success');
+          closeVipModal();
+        }
+        state.deferredPrompt = null;
+        installRequested = false;
+        return true;
+      } catch (err) {
+        console.warn('Install prompt error:', err);
+      }
+    }
+    return false;
+  }
 
   // Handle App Download / Install
   if (btnVipInstall) {
     btnVipInstall.addEventListener('click', async () => {
       if (state.deferredPrompt) {
-        state.deferredPrompt.prompt();
-        const { outcome } = await state.deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          showToast('🎉 OTAQ App installed to your phone!', 'success');
-          closeVipModal();
-        }
-        state.deferredPrompt = null;
-      } else {
-        // Show platform-specific instructions for Safari or Chrome
-        if (vipInstructions) {
-          vipInstructions.style.display = 'block';
+        await triggerNativeInstall();
+        return;
+      }
+
+      installRequested = true;
+      showToast('Opening app installer for your mobile...', 'info');
+
+      setTimeout(async () => {
+        if (state.deferredPrompt) {
+          await triggerNativeInstall();
+        } else {
           const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
           const iosEl = document.getElementById('inst-ios');
           const androidEl = document.getElementById('inst-android');
           if (isIOS) {
-            if (iosEl) iosEl.style.color = '#d6a961';
+            if (iosEl) iosEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            showToast('Tap Share (⎋) at bottom of Safari ➔ "Add to Home Screen" ➕', 'info');
           } else {
-            if (androidEl) androidEl.style.color = '#d6a961';
+            if (androidEl) androidEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            showToast('Tap 3 dots (⋮) at top right ➔ "Install app" 📲', 'info');
           }
         }
-        showToast('Follow the steps below to save OTAQ to your phone screen.', 'info');
+      }, 350);
+    });
+  }
+
+  // Direct Download Launcher Button
+  const btnDownloadShortcut = document.getElementById('btn-download-shortcut');
+  if (btnDownloadShortcut) {
+    btnDownloadShortcut.addEventListener('click', () => {
+      try {
+        const fullUrl = window.location.href;
+        const shortcutContent = `[InternetShortcut]\r\nURL=${fullUrl}\r\nIconIndex=0\r\nIconFile=${window.location.origin}/assets/icon-192.png\r\n`;
+        const blob = new Blob([shortcutContent], { type: 'application/octet-stream' });
+        const downloadUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = 'OTAQ-Restaurant.url';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(downloadUrl);
+        showToast('📥 OTAQ App Shortcut downloaded! Tap to launch.', 'success');
+      } catch (e) {
+        showToast('Could not generate download file.', 'error');
       }
     });
   }
