@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#17130f">
+  <meta name="description" content="OTAQ — luxury open-air family restaurant in Block 10 Gulistan-e-Johar, Karachi. Desi karahi, BBQ, Chinese dishes, authentic chai, online ordering and reservations.">
+  <meta property="og:title" content="OTAQ — Family Restaurant & Online Ordering, Gulistan-e-Johar">
+  <meta property="og:description" content="Sindhi-inspired dining, desi karahi, BBQ, Chinese dishes and chai at OTAQ in Block 10 Gulistan-e-Johar, Karachi.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://menumoment.com/static/uploads/images/b87095a567a44f659a7ba9492965769e.png">
+  <title>OTAQ — Family Restaurant & Ordering | Gulistan-e-Johar, Karachi</title>
+
+  <!-- PWA Manifest & Mobile Web App -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icon-192.svg">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="OTAQ">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://menumoment.com" crossorigin>
+  <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  
+  <link rel="icon" href="assets/icon-192.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Restaurant",
+    "name":"OTAQ",
+    "alternateName":"اوطاق",
+    "description":"Family restaurant in Block 10 Gulistan-e-Johar, Karachi, with publicly listed Sindhi/desi, BBQ, Chinese and chai offerings.",
+    "telephone":"+923092067977",
+    "priceRange":"Rs 1,000–6,000",
+    "servesCuisine":["Sindhi","Pakistani","BBQ","Chinese"],
+    "address":{
+      "@type":"PostalAddress",
+      "streetAddress":"PHA Apartments, Scheme Road, Block 10 Gulistan-e-Johar",
+      "addressLocality":"Karachi",
+      "addressCountry":"PK"
+    },
+    "openingHoursSpecification":[
+      {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"17:00","closes":"05:00"}
+    ],
+    "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.4","reviewCount":"1304"}
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Real-time Active Offers Announcement Banner -->
+  <div class="offers-ribbon" id="offers-ribbon" role="region" aria-label="Special Offers">
+    <div class="container ribbon-inner">
+      <span class="ribbon-tag">OFFER</span>
+      <span class="ribbon-text" id="ribbon-text">Johar Dining Special: Use code <strong class="copyable-code" id="ribbon-code" title="Click to copy promo code">JOHAR15</strong> for 15% off orders above Rs 2,500!</span>
+      <button class="ribbon-btn" id="ribbon-apply-btn" type="button">Apply Code</button>
+      <button class="ribbon-close" id="ribbon-close-btn" type="button" aria-label="Dismiss offer banner">&times;</button>
+    </div>
+  </div>
+
+  <!-- Site Header -->
+  <header class="site-header" id="top">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top" aria-label="OTAQ home">
+        <span class="brand-script">اوطاق</span>
+        <span class="brand-english">OTAQ</span>
+      </a>
+
+      <div class="nav-right-cluster">
+        <!-- Floating Cart Trigger Button -->
+        <button class="cart-trigger-btn" id="header-cart-btn" type="button" aria-label="View your order cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-badge" id="cart-count-badge">0</span>
+          <span class="cart-header-total" id="header-cart-total">Rs 0</span>
+        </button>
+
+        <button class="nav-toggle" type="button" aria-controls="site-menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+          <span class="sr-only">Open navigation</span>
+        </button>
+      </div>
+
+      <nav class="site-nav" id="site-menu" aria-label="Main navigation">
+        <a href="#story">Story</a>
+        <a href="#menu">Menu & Order</a>
+        <a href="#reservation">Reservations</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#location">Location</a>
+        <a class="nav-cta" href="#reservation">Book Table</a>
+        <a class="nav-phone" href="tel:+923092067977">+92 309 2067977</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero Section -->
+    <section class="hero section-dark">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Family Restaurant · Gulistan-e-Johar · Karachi</p>
+          <h1>A place to eat,<br><em>sit & stay awhile.</em></h1>
+          <p class="hero-lead">OTAQ brings together a cultural, open-air setting with desi karahi, charcoal BBQ, authentic Chinese gravies, and slow-simmered chai — right in Block 10, Gulistan-e-Johar.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#menu">Order Online <span aria-hidden="true">↗</span></a>
+            <a class="btn btn-gold-outline" href="#reservation">Reserve a Table</a>
+            <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=OTAQ%20PHA%20Apartments%20Scheme%20Road%20Block%2010%20Gulistan-e-Johar%20Karachi" target="_blank" rel="noopener noreferrer">Get directions</a>
+          </div>
+          <div class="hero-meta" aria-label="OTAQ details">
+            <span><strong>4.4</strong> ★ on Google</span>
+            <span>1,304 reviews</span>
+            <span>Rs 1,000–6,000 / person</span>
+            <span>Daily · 5 PM–5 AM</span>
+          </div>
+        </div>
+
+        <div class="hero-art reveal reveal-delay">
+          <div class="hero-image-frame">
+            <img src="https://menumoment.com/static/uploads/images/b87095a567a44f659a7ba9492965769e.png" alt="OTAQ restaurant exterior with illuminated Arabic-style OTAQ sign and cultural patterned facade" fetchpriority="high">
+            <div class="steam-particle steam-1"></div>
+            <div class="steam-particle steam-2"></div>
+          </div>
+          <div class="hero-stamp" aria-hidden="true">
+            <span>اوطاق</span>
+            <small>جيوَر · كراچي</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Stats Bar -->
+    <section class="trust-bar">
+      <div class="container trust-grid">
+        <div><span class="trust-kicker">Google rating</span><strong>4.4 / 5</strong></div>
+        <div><span class="trust-kicker">Reviews</span><strong>1,304</strong></div>
+        <div><span class="trust-kicker">Category</span><strong>Family restaurant</strong></div>
+        <div><span class="trust-kicker">Hours</span><strong>5 PM–5 AM daily</strong></div>
+      </div>
+    </section>
+
+    <!-- CINEMATIC CLOUD TRANSITION SECTION -->
+    <section class="cloud-transition-section" id="atmosphere" aria-label="Atmosphere reveal">
+      <div class="cloud-canvas-wrap">
+        <div class="atmosphere-bg">
+          <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkC9W0A0JvgF2QRxvaEv7WL9YM1JzZN6LJrJ9SC89T5AlCOatQ3vTuzcc7lNYdjP4rnYCIskD2EOxSnIWBByp09mQYuwUxDMjmSG1Zyo-2x1lYcvX3Ko0s6CUbI1MEsCUQlj9CMkGeAHcM=w1200-h800-k-no" alt="OTAQ evening ambiance and dining courtyard" loading="lazy">
+          <div class="atmosphere-overlay"></div>
+        </div>
+
+        <!-- Parting Clouds Overlay -->
+        <div class="cloud-layer cloud-layer-left" id="cloud-left" aria-hidden="true"></div>
+        <div class="cloud-layer cloud-layer-right" id="cloud-right" aria-hidden="true"></div>
+
+        <div class="cloud-content">
+          <span class="cloud-subtitle">Step Inside Johar’s Cultural Gem</span>
+          <h2 class="cloud-title">An Open-Air Courtyard<br><em>Bathed in Warm Light</em></h2>
+          <p class="cloud-desc">Under Karachi’s night sky, fragrant charcoal smoke, laughter, and sizzling handis mingle across our welcoming family seating.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="section section-paper" id="story">
+      <div class="container split-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow warm">The OTAQ feeling</p>
+          <h2>Food with a <em>cultural</em> setting.</h2>
+          <div class="story-quick-cards">
+            <div class="quick-card">
+              <span class="qc-icon">🕒</span>
+              <strong>Operating Hours</strong>
+              <span>Daily · 5:00 PM – 5:00 AM</span>
+            </div>
+            <div class="quick-card">
+              <span class="qc-icon">📍</span>
+              <strong>Johar Address</strong>
+              <span>PHA Apts, Scheme Rd, Block 10</span>
+            </div>
+            <div class="quick-card">
+              <span class="qc-icon">📞</span>
+              <strong>Direct Phone</strong>
+              <span>+92 309 2067977</span>
+            </div>
+          </div>
+        </div>
+        <div class="story-copy reveal reveal-delay">
+          <p class="lead">Publicly available descriptions and customer feedback point to an artsy, open-air atmosphere with a strong cultural character.</p>
+          <p>The restaurant is listed in PHA Apartments on Scheme Road, Block 10 Gulistan-e-Johar, and serves dine-in, takeout and delivery. Its public menu spans BBQ, desi karahi & handi, Chinese & pulao, vegetables, roti and tea.</p>
+          <div class="mini-pills" aria-label="Dining options">
+            <span>Dine-in</span><span>Takeout</span><span>Express Delivery</span><span>Late Night Feast</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE ONLINE ORDERING & MENU SECTION -->
+    <section class="section section-ink" id="menu">
+      <div class="container">
+        <div class="section-top reveal">
+          <div>
+            <p class="eyebrow">Interactive Online Menu</p>
+            <h2>Order Fresh Desi Feasts</h2>
+          </div>
+          <div class="menu-header-actions">
+            <p class="section-note">Add dishes directly to your online order. Securely calculated with real-time restaurant pricing, delivery, and pickup options.</p>
+          </div>
+        </div>
+
+        <!-- Category Tabs Filter -->
+        <div class="menu-tabs" id="menu-tabs-container" role="tablist" aria-label="Menu categories">
+          <button class="menu-tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">All Specialties</button>
+          <button class="menu-tab" type="button" role="tab" aria-selected="false" data-filter="bbq">Charcoal BBQ</button>
+          <button class="menu-tab" type="button" role="tab" aria-selected="false" data-filter="karahi">Karahi & Handi</button>
+          <button class="menu-tab" type="button" role="tab" aria-selected="false" data-filter="chinese">Chinese & Pulao</button>
+          <button class="menu-tab" type="button" role="tab" aria-selected="false" data-filter="veg">Veg, Roti & Chai</button>
+        </div>
+
+        <!-- Featured Popular Dishes Cards Grid (Hydrated by DB) -->
+        <div class="menu-grid" id="featured-dishes-grid">
+          <!-- Populated dynamically from MySQL API -->
+          <article class="menu-card featured reveal" data-category="bbq">
+            <div class="menu-card-top">
+              <span class="menu-index">01</span>
+              <span class="tag">Signature BBQ</span>
+            </div>
+            <h3>Otaq Special Chest Tikka</h3>
+            <p>Chicken chest tikka marinated in secret spices, listed among the restaurant’s popular menu highlights.</p>
+            <div class="card-bottom-row">
+              <div class="price">Rs 550</div>
+              <button class="add-to-cart-btn" type="button" data-id="1" data-name="Otaq Special Chest Tikka" data-price="550">+ Add to Order</button>
+            </div>
+          </article>
+
+          <article class="menu-card featured reveal" data-category="karahi">
+            <div class="menu-card-top">
+              <span class="menu-index">02</span>
+              <span class="tag">Desi Ghee Karahi</span>
+            </div>
+            <h3>Desi Chicken Special Karahi</h3>
+            <p>Signature karahi prepared fresh with pure desi ghee, fresh tomatoes, and green chillies.</p>
+            <div class="card-bottom-row">
+              <div class="price">Rs 2,000 <small>/ half</small> · Rs 4,000 <small>/ full</small></div>
+              <button class="add-to-cart-btn" type="button" data-id="17" data-name="Desi Chicken Special Karahi" data-price="4000" data-half-price="2000" data-has-variants="true">+ Add to Order</button>
+            </div>
+          </article>
+
+          <article class="menu-card featured reveal" data-category="chinese">
+            <div class="menu-card-top">
+              <span class="menu-index">03</span>
+              <span class="tag">Authentic Rice</span>
+            </div>
+            <h3>Sindhi Desi Pulao</h3>
+            <p>Authentic Sindhi-style fragrant beef/mutton stock rice slow cooked with aromatic whole spices.</p>
+            <div class="card-bottom-row">
+              <div class="price">Rs 1,400</div>
+              <button class="add-to-cart-btn" type="button" data-id="34" data-name="Sindhi Desi Pulao" data-price="1400">+ Add to Order</button>
+            </div>
+          </article>
+        </div>
+
+        <!-- Full Menu Category Lists (Hydrated by DB with Add to Cart) -->
+        <div class="menu-list-wrap reveal" id="menu-columns-wrap">
+          <!-- Populated from MySQL API with instant fallback -->
+        </div>
+
+        <div class="menu-photo-strip reveal">
+          <figure><img src="https://menumoment.com/static/uploads/images/5600b1634a35445aa622a71d4eb53a99.png" alt="Photograph of OTAQ printed menu page showing BBQ and karahi offerings" loading="lazy"><figcaption>BBQ · Karahi</figcaption></figure>
+          <figure><img src="https://menumoment.com/static/uploads/images/74a20b8d865049f4922798c2ce986e67.png" alt="Photograph of OTAQ printed menu page showing Chinese and pulao offerings" loading="lazy"><figcaption>Chinese · Pulao</figcaption></figure>
+          <figure><img src="https://menumoment.com/static/uploads/images/5a11b78065b24c9fab7f237cf575b131.png" alt="Photograph of OTAQ printed menu page showing vegetables, roti and tea" loading="lazy"><figcaption>Veg · Roti · Tea</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- REAL OTAQ IMAGERY GALLERY -->
+    <section class="section section-paper photo-section">
+      <div class="container">
+        <div class="section-top reveal">
+          <div><p class="eyebrow warm">Inside the restaurant</p><h2>Real OTAQ imagery</h2></div>
+          <p class="section-note dark-note">Selected from the publicly visible business imagery supplied with the listing, plus real evening ambiance.</p>
+        </div>
+        <div class="gallery-grid">
+          <figure class="gallery-card tall reveal"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlTF6g7o5fzxjXikwaXM36p_OEaTSf4ubrgGCGifHgey6CODNmjyR3Fl8QKgxYPkLq0Sbj80IwVJ9XRnxNmAKKc-FSAYtLRORcnI_p1gW8HkXNg8tH6Xq0wKp7-5YLMuA0YQwSZTynoOpW4=w800-h600-k-no" alt="OTAQ restaurant photo from public Google business imagery" loading="lazy"></figure>
+          <figure class="gallery-card wide reveal reveal-delay"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkC9W0A0JvgF2QRxvaEv7WL9YM1JzZN6LJrJ9SC89T5AlCOatQ3vTuzcc7lNYdjP4rnYCIskD2EOxSnIWBByp09mQYuwUxDMjmSG1Zyo-2x1lYcvX3Ko0s6CUbI1MEsCUQlj9CMkGeAHcM=w800-h600-k-no" alt="Recent OTAQ customer photo showing outdoor dining" loading="lazy"></figure>
+          <figure class="gallery-card reveal"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkzV8-iTwQea_1e-bBye24V5FCPwFekDZ_U0L23K8gWkxVAh6PhHX2W5a_zDwW1v6I-zoB0GKoUokb5n3rCGEv4GizuSXuTQzVq4zxyFqgBJuKZ8NMaD9NAfP8AyJaN3hE30ko=w600-h800-k-no" alt="OTAQ outdoor seating decor" loading="lazy"></figure>
+          <figure class="gallery-card reveal reveal-delay"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmRbT1GUaZej98OOKPqVnhD9idcPRH7cTlEsxK2zJTa4xUJRpLi5AtFodPHAT3mtswtPCTQ45zTXq7dPmbRTIsRdgrTmMWmLatfdQxdoOfF2McAzx681I7sIpUPFDvLkLEPl3rveg=w800-h500-k-no" alt="OTAQ masala chai and tea service" loading="lazy"></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE TABLE RESERVATION SECTION -->
+    <section class="section section-dark reservation-section" id="reservation">
+      <div class="container">
+        <div class="reservation-grid">
+          <div class="reservation-copy reveal">
+            <p class="eyebrow">Table Bookings</p>
+            <h2>Reserve Your <em>Cultural Table</em></h2>
+            <p class="lead">Planning a family dinner, late-night gathering, or special celebration? Book your spot in advance and skip the weekend wait.</p>
+            <div class="res-perks">
+              <div class="perk-item"><span>✨</span> Dedicated open-air or family section</div>
+              <div class="perk-item"><span>🔥</span> Pre-warmed charcoal grills & freshly baked naan</div>
+              <div class="perk-item"><span>📱</span> Instant database confirmation with SMS/WhatsApp followup</div>
+            </div>
+            <div class="res-call-box">
+              <span>Prefer calling directly?</span>
+              <a href="tel:+923092067977" class="res-call-link">📞 +92 309 2067977</a>
+            </div>
+          </div>
+
+          <div class="reservation-form-wrap reveal reveal-delay">
+            <form id="reservation-form" class="reservation-form" novalidate>
+              <div class="form-title">Table Booking Form</div>
+              
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="res-name">Full Name *</label>
+                  <input type="text" id="res-name" name="name" placeholder="e.g. Tariq Khan" required>
+                </div>
+                <div class="form-group">
+                  <label for="res-phone">Phone Number *</label>
+                  <input type="tel" id="res-phone" name="phone" placeholder="e.g. 0300 1234567" required>
+                </div>
+              </div>
+
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="res-date">Reservation Date *</label>
+                  <input type="date" id="res-date" name="date" required>
+                </div>
+                <div class="form-group">
+                  <label for="res-time">Preferred Time *</label>
+                  <select id="res-time" name="time" required>
+                    <option value="06:00 PM">06:00 PM (Early Dinner)</option>
+                    <option value="07:30 PM">07:30 PM</option>
+                    <option value="08:30 PM" selected>08:30 PM (Prime Dinner)</option>
+                    <option value="09:30 PM">09:30 PM</option>
+                    <option value="10:30 PM">10:30 PM</option>
+                    <option value="11:30 PM">11:30 PM (Late Night)</option>
+                    <option value="01:00 AM">01:00 AM (Midnight Chai)</option>
+                    <option value="02:30 AM">02:30 AM</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="res-guests">Number of Guests *</label>
+                  <select id="res-guests" name="guests" required>
+                    <option value="1">1 Person</option>
+                    <option value="2">2 Persons</option>
+                    <option value="4" selected>4 Persons</option>
+                    <option value="6">6 Persons</option>
+                    <option value="8">8 Persons</option>
+                    <option value="12">10-12 Persons (Family Feast)</option>
+                    <option value="16">15+ Persons (Large Party)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="res-seating">Seating Preference</label>
+                  <select id="res-seating" name="seating">
+                    <option value="Open Air Cultural" selected>Open-Air Courtyard</option>
+                    <option value="Family Enclosure">Family Private Enclosure</option>
+                    <option value="Rooftop / Terrace">Outdoor Terrace</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="res-notes">Special Requests (Optional)</label>
+                <textarea id="res-notes" name="notes" rows="2" placeholder="Birthday celebration, high chair needed, corner table..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-submit-res" id="btn-submit-res">
+                <span>Confirm Table Reservation</span>
+              </button>
+              <div class="form-status-msg" id="res-status-msg" role="status" aria-live="polite"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CUSTOMER REVIEWS SECTION -->
+    <section class="section section-ink" id="reviews">
+      <div class="container">
+        <div class="section-top reveal">
+          <div><p class="eyebrow">What customers say</p><h2>Real words, not testimonials.</h2></div>
+          <div class="rating-block"><strong>4.4</strong><span>★★★★★</span><small>1,304 Google reviews</small></div>
+        </div>
+        <div class="reviews-grid">
+          <article class="review-card reveal">
+            <div class="review-head"><span>5.0</span><span>★★★★★</span></div>
+            <blockquote>“What lovely atmosphere! Wish more people hung out here, its really artsy open and wonderful. I only have chai and fries here but the service is a bit slow for how many staff members there are.”</blockquote>
+            <footer>Anas Khan · Google review · 5 months ago</footer>
+          </article>
+          <article class="review-card review-card-light reveal reveal-delay">
+            <div class="review-head"><span>5.0</span><span>★★★★★</span></div>
+            <blockquote>“Food was fantastic MaShaAllah we enjoyed alot everything that we ordered was fresh and hot the taste was also greattt !!! There service was also commendable very friendly and respectful as well !!!”</blockquote>
+            <footer>Alishba Mahesar · Google review · 2 months ago</footer>
+          </article>
+          <article class="review-card reveal reveal-delay-2">
+            <div class="review-head"><span>4.4</span><span>★ average</span></div>
+            <blockquote>“Tried quite a few things this time… The chicken tikka and doodh pati chai under the open sky made the evening unforgettable.”</blockquote>
+            <footer>Farhan Masood · Local Guide · 1 month ago</footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCATION & MAP SECTION -->
+    <section class="section location-section" id="location">
+      <div class="container location-grid">
+        <div class="location-copy reveal">
+          <p class="eyebrow warm">Come find us</p>
+          <h2>Block 10,<br><em>Gulistan-e-Johar.</em></h2>
+          <p class="lead">PHA Apartments, Scheme Road, Block 10 Gulistan-e-Johar, Karachi, Pakistan.</p>
+          <div class="contact-list">
+            <a href="tel:+923092067977"><span>Call</span><strong>+92 309 2067977</strong></a>
+            <div><span>Hours</span><strong>Daily · 5 PM–5 AM</strong></div>
+            <div><span>Service</span><strong>Dine-in · Takeout · Delivery</strong></div>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-dark" href="https://www.google.com/maps/search/?api=1&query=OTAQ%20PHA%20Apartments%20Scheme%20Road%20Block%2010%20Gulistan-e-Johar%20Karachi" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a>
+            <a class="text-link" href="tel:+923092067977">Call the restaurant</a>
+          </div>
+        </div>
+        <div class="map-card reveal reveal-delay">
+          <div class="map-header"><span>OTAQ</span><span>W4CR+V3 · Karachi</span></div>
+          <div class="map-surface" aria-label="Map-style location panel showing OTAQ in Gulistan-e-Johar">
+            <div class="map-road road-a"></div><div class="map-road road-b"></div><div class="map-road road-c"></div>
+            <div class="map-block block-a"></div><div class="map-block block-b"></div><div class="map-block block-c"></div>
+            <div class="pin"><i></i><span>OTAQ</span></div>
+            <div class="map-caption"><strong>PHA Apartments</strong><span>Scheme Road · Block 10 · Gulistan-e-Johar</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CALL TO ACTION -->
+    <section class="final-cta section-dark">
+      <div class="container final-inner reveal">
+        <p class="eyebrow">Make tonight simple</p>
+        <h2>See the menu.<br><em>Then come to OTAQ.</em></h2>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#menu">Order Online Now</a>
+          <a class="btn btn-gold-outline" href="#reservation">Book a Table</a>
+          <a class="btn btn-ghost" href="tel:+923092067977">Call +92 309 2067977</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MOBILE ACTIONS BOTTOM BAR -->
+  <div class="mobile-actions" aria-label="Quick actions">
+    <a href="tel:+923092067977"><span aria-hidden="true">📞</span>Call</a>
+    <a href="#menu"><span aria-hidden="true">☰</span>Menu</a>
+    <button type="button" class="mobile-cart-btn" id="mobile-cart-btn" aria-label="Open ordering cart">
+      <span class="m-cart-icon">🛍️</span>
+      <span class="m-cart-badge" id="mobile-cart-badge">0</span>
+      Cart
+    </button>
+    <a href="#reservation"><span aria-hidden="true">📅</span>Reserve</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=OTAQ%20PHA%20Apartments%20Scheme%20Road%20Block%2010%20Gulistan-e-Johar%20Karachi" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">📍</span>Directions</a>
+  </div>
+
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand footer-brand">
+          <span class="brand-script">اوطاق</span>
+          <span class="brand-english">OTAQ</span>
+        </div>
+        <p>Family restaurant · Gulistan-e-Johar · Karachi</p>
+        <p class="admin-link-row"><a href="/admin.html" class="admin-portal-link">👑 Restaurant Owner Portal</a></p>
+      </div>
+      <div>
+        <span class="footer-label">Visit</span>
+        <p>PHA Apartments, Scheme Road<br>Block 10 Gulistan-e-Johar, Karachi</p>
+      </div>
+      <div>
+        <span class="footer-label">Call & WhatsApp</span>
+        <p><a href="tel:+923092067977">+92 309 2067977</a></p>
+        <p class="pwa-install-inline"><button id="footer-install-btn" class="footer-install-link" type="button">📲 Install App to Home Screen</button></p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© <span id="year"></span> OTAQ. All rights reserved.</span>
+      <span>Authentic Sindhi & Desi Dining Experience · Karachi</span>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       SLIDE-OUT CART DRAWER & CHECKOUT
+       ========================================== -->
+  <div class="cart-backdrop" id="cart-backdrop" aria-hidden="true"></div>
+  <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-labelledby="cart-title" aria-hidden="true">
+    <div class="cart-drawer-header">
+      <div class="cd-title-group">
+        <h3 id="cart-title">Your Order</h3>
+        <span class="cart-items-tag" id="drawer-items-count">0 items</span>
+      </div>
+      <button class="cart-close-btn" id="cart-close-btn" type="button" aria-label="Close cart">&times;</button>
+    </div>
+
+    <!-- Order Type Switcher -->
+    <div class="order-type-tabs" role="radiogroup" aria-label="Order type">
+      <button class="type-btn is-active" type="button" data-type="delivery">🛵 Delivery</button>
+      <button class="type-btn" type="button" data-type="pickup">🛍️ Takeout Pickup</button>
+      <button class="type-btn" type="button" data-type="dine_in">🍽️ Dine-in Table</button>
+    </div>
+
+    <!-- Cart Items List Container -->
+    <div class="cart-items-container" id="cart-items-list">
+      <!-- Empty State or Items populated by JS -->
+    </div>
+
+    <!-- Promo Code Area -->
+    <div class="cart-promo-area">
+      <div class="promo-input-row">
+        <input type="text" id="promo-input" placeholder="Promo code (e.g. JOHAR15)" uppercase>
+        <button type="button" id="btn-apply-promo">Apply</button>
+      </div>
+      <div class="promo-feedback" id="promo-feedback"></div>
+    </div>
+
+    <!-- Pricing Summary -->
+    <div class="cart-summary">
+      <div class="summary-row"><span>Subtotal</span><strong id="cart-subtotal">Rs 0</strong></div>
+      <div class="summary-row promo-row" id="summary-discount-row" style="display:none;"><span>Discount Promo</span><strong id="cart-discount">-Rs 0</strong></div>
+      <div class="summary-row" id="summary-delivery-row"><span>Delivery Fee</span><strong id="cart-delivery-fee">Rs 150</strong></div>
+      <div class="summary-row summary-total"><span>Total to Pay</span><strong id="cart-grand-total">Rs 0</strong></div>
+    </div>
+
+    <!-- Checkout Details Accordion / Form -->
+    <div class="checkout-form-wrap" id="checkout-form-wrap">
+      <h4>Customer & Delivery Details</h4>
+      <form id="checkout-form" novalidate>
+        <div class="form-group">
+          <label for="cust-name">Your Full Name *</label>
+          <input type="text" id="cust-name" required placeholder="e.g. Hamza Farooq">
+        </div>
+        <div class="form-group">
+          <label for="cust-phone">WhatsApp / Contact Phone *</label>
+          <input type="tel" id="cust-phone" required placeholder="0300 1234567">
+        </div>
+        <div class="form-group" id="delivery-address-group">
+          <label for="cust-address">Delivery Address (Johar / Nearby) *</label>
+          <textarea id="cust-address" rows="2" placeholder="House/Flat #, Building, Street, Block 10..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="cust-notes">Special Kitchen Instructions (Optional)</label>
+          <input type="text" id="cust-notes" placeholder="Extra raita, less spicy, call before ringing...">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-checkout" id="btn-place-order">
+          <span class="btn-text">Confirm & Place Order</span>
+          <span class="btn-total-pill" id="btn-total-preview">Rs 0</span>
+        </button>
+      </form>
+    </div>
+  </aside>
+
+  <!-- ==========================================
+       ORDER SUCCESS & LIVE TRACKING MODAL
+       ========================================== -->
+  <div class="order-modal-backdrop" id="order-modal-backdrop" aria-hidden="true">
+    <div class="order-modal" role="dialog" aria-labelledby="order-modal-title">
+      <div class="order-modal-icon">🎉</div>
+      <h3 id="order-modal-title">Feast Order Confirmed!</h3>
+      <p class="order-num-text">Order Number: <strong id="confirmed-order-number">OTAQ-0000</strong></p>
+      
+      <div class="order-status-timeline">
+        <div class="timeline-step is-active" id="step-pending">
+          <div class="step-dot"></div>
+          <span>Received</span>
+        </div>
+        <div class="timeline-step" id="step-preparing">
+          <div class="step-dot"></div>
+          <span>In Kitchen</span>
+        </div>
+        <div class="timeline-step" id="step-ready">
+          <div class="step-dot"></div>
+          <span>Ready</span>
+        </div>
+        <div class="timeline-step" id="step-completed">
+          <div class="step-dot"></div>
+          <span>Delivered</span>
+        </div>
+      </div>
+
+      <div class="order-modal-details" id="order-modal-details"></div>
+
+      <p class="order-modal-contact">Our team will reach out at your phone to verify delivery. For instant questions, call <a href="tel:+923092067977">+92 309 2067977</a>.</p>
+
+      <button type="button" class="btn btn-primary" id="btn-close-order-modal">Awesome, Thanks!</button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PWA INSTALL SMART BANNER / MODAL
+       ========================================== -->
+  <div class="pwa-install-banner" id="pwa-banner" role="banner" aria-label="Install App" style="display:none;">
+    <div class="pwa-banner-inner">
+      <img src="/assets/icon-192.svg" alt="OTAQ App" class="pwa-banner-icon">
+      <div class="pwa-banner-text">
+        <strong>Install OTAQ Restaurant App</strong>
+        <span>Instant ordering, live table status & offline menu access without APK download.</span>
+      </div>
+      <div class="pwa-banner-actions">
+        <button type="button" class="btn-pwa-install" id="btn-pwa-install">Install App</button>
+        <button type="button" class="btn-pwa-dismiss" id="btn-pwa-dismiss" aria-label="Dismiss">&times;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

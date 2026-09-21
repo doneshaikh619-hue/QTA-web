@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>OTAQ — Executive Owner Portal & Kitchen Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="icon" href="./assets/icon-192.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- AUTHENTICATION LOGIN OVERLAY -->
+  <div class="login-overlay" id="login-overlay">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="brand-script">اوطاق</span>
+        <span class="brand-english">OTAQ RESTAURANT</span>
+      </div>
+      <h2>Executive Portal Login</h2>
+      <p class="login-subtitle">Management access for live kitchen orders, table reservations & menu pricing.</p>
+
+      <form id="login-form" class="login-form" novalidate>
+        <div class="form-group">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" value="admin" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" value="otaq2026!" required autocomplete="current-password">
+        </div>
+
+        <div class="demo-credentials-pill">
+          <span>Demo Credentials:</span>
+          <strong>admin</strong> / <strong>otaq2026!</strong>
+        </div>
+
+        <button type="submit" class="btn-admin-primary btn-login" id="btn-login">
+          <span>Enter Dashboard</span>
+        </button>
+        <div class="login-error" id="login-error"></div>
+      </form>
+      <div class="login-footer">
+        <a href="/" target="_blank">← Return to Customer Website</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <div class="admin-layout" id="admin-layout" style="display:none;">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <span class="brand-script">اوطاق</span>
+          <div class="brand-text">
+            <span class="brand-title">OTAQ</span>
+            <small class="brand-badge">EXECUTIVE</small>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button type="button" class="nav-item is-active" data-view="overview">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Overview</span>
+        </button>
+
+        <button type="button" class="nav-item" data-view="orders">
+          <span class="nav-icon">🛍️</span>
+          <span class="nav-label">Orders</span>
+          <span class="badge-counter" id="sidebar-orders-badge">0</span>
+        </button>
+
+        <button type="button" class="nav-item" data-view="reservations">
+          <span class="nav-icon">📅</span>
+          <span class="nav-label">Reservations</span>
+          <span class="badge-counter" id="sidebar-res-badge">0</span>
+        </button>
+
+        <button type="button" class="nav-item" data-view="menu">
+          <span class="nav-icon">🍲</span>
+          <span class="nav-label">Menu Management</span>
+        </button>
+
+        <button type="button" class="nav-item" data-view="offers">
+          <span class="nav-icon">🏷️</span>
+          <span class="nav-label">Promotions & Offers</span>
+        </button>
+
+        <button type="button" class="nav-item" data-view="analytics">
+          <span class="nav-icon">📈</span>
+          <span class="nav-label">Sales & Analytics</span>
+        </button>
+
+        <button type="button" class="nav-item" data-view="qr">
+          <span class="nav-icon">📱</span>
+          <span class="nav-label">Table QR Codes</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-info">
+          <div class="user-avatar">GM</div>
+          <div class="user-details">
+            <strong id="user-display-name">Owner / GM</strong>
+            <small>OTAQ Karachi</small>
+          </div>
+        </div>
+        <button type="button" class="btn-logout" id="btn-logout" title="Sign out">
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="admin-main">
+      <!-- TOPBAR -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button type="button" class="mobile-menu-toggle" id="admin-mobile-toggle" aria-label="Toggle navigation">☰</button>
+          <h1 class="page-title" id="page-heading">Dashboard Overview</h1>
+        </div>
+
+        <div class="topbar-right">
+          <a href="/" target="_blank" class="topbar-link-btn" title="View live restaurant website">
+            <span>Customer Website ↗</span>
+          </a>
+          <button type="button" class="btn-refresh" id="btn-refresh-data" title="Refresh live data">
+            🔄 <span class="refresh-text">Refresh</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- VIEW PANELS -->
+      <main class="admin-content-wrap">
+        <!-- ==========================================
+             1. OVERVIEW VIEW
+             ========================================== -->
+        <section class="admin-view is-active" id="view-overview">
+          <!-- Metric KPI Cards -->
+          <div class="kpi-grid">
+            <div class="kpi-card gold-glow">
+              <div class="kpi-header">
+                <span>Today's Revenue</span>
+                <span class="kpi-tag">DAILY</span>
+              </div>
+              <div class="kpi-value" id="kpi-today-sales">Rs 0</div>
+              <div class="kpi-footer" id="kpi-total-sales">Total All-Time: Rs 0</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span>Today's Orders</span>
+                <span class="kpi-tag">LIVE</span>
+              </div>
+              <div class="kpi-value" id="kpi-today-orders">0</div>
+              <div class="kpi-footer" id="kpi-total-orders">Total Placed: 0</div>
+            </div>
+
+            <div class="kpi-card alert-card">
+              <div class="kpi-header">
+                <span>Pending Orders</span>
+                <span class="kpi-tag alert">KITCHEN</span>
+              </div>
+              <div class="kpi-value" id="kpi-pending-orders">0</div>
+              <div class="kpi-footer" id="kpi-preparing-orders">0 in kitchen preparation</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span>Pending Reservations</span>
+                <span class="kpi-tag">HOST</span>
+              </div>
+              <div class="kpi-value" id="kpi-pending-res">0</div>
+              <div class="kpi-footer" id="kpi-upcoming-res">0 upcoming bookings</div>
+            </div>
+          </div>
+
+          <!-- Overview Grids: Recent Orders & Quick Controls -->
+          <div class="overview-grid-columns">
+            <div class="content-panel">
+              <div class="panel-header">
+                <h3>Live Kitchen Pipeline</h3>
+                <button type="button" class="link-btn" id="btn-goto-orders">View All Orders →</button>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Order #</th>
+                      <th>Customer</th>
+                      <th>Type</th>
+                      <th>Total</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="overview-recent-orders">
+                    <tr><td colspan="6" class="loading-td">Fetching live orders from MySQL...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="content-panel">
+              <div class="panel-header">
+                <h3>Active Promotions</h3>
+                <button type="button" class="link-btn" id="btn-goto-offers">Manage Offers →</button>
+              </div>
+              <div class="active-offers-summary" id="overview-offers-list">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             2. ORDERS VIEW
+             ========================================== -->
+        <section class="admin-view" id="view-orders">
+          <div class="content-panel">
+            <div class="panel-header flex-wrap">
+              <div class="search-filter-cluster">
+                <input type="text" id="order-search-input" placeholder="Search by Order #, Customer, or Phone...">
+                <select id="order-status-filter">
+                  <option value="all">All Statuses</option>
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="preparing">Preparing</option>
+                  <option value="ready">Ready</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+              <div class="orders-count-summary" id="orders-filter-count">Showing orders...</div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Order #</th>
+                    <th>Customer Info</th>
+                    <th>Type</th>
+                    <th>Items & Notes</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Manage</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-table-body">
+                  <tr><td colspan="7" class="loading-td">Loading orders...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             3. RESERVATIONS VIEW
+             ========================================== -->
+        <section class="admin-view" id="view-reservations">
+          <div class="content-panel">
+            <div class="panel-header flex-wrap">
+              <div class="search-filter-cluster">
+                <select id="res-status-filter">
+                  <option value="all">All Reservations</option>
+                  <option value="pending">Pending Confirmation</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+                <input type="date" id="res-date-filter">
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Guest Name</th>
+                    <th>Phone</th>
+                    <th>Date & Time</th>
+                    <th>Guests</th>
+                    <th>Seating</th>
+                    <th>Special Requests</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="reservations-table-body">
+                  <tr><td colspan="8" class="loading-td">Loading reservations...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             4. MENU MANAGEMENT VIEW
+             ========================================== -->
+        <section class="admin-view" id="view-menu">
+          <div class="content-panel">
+            <div class="panel-header">
+              <div>
+                <h3>Restaurant Menu Catalog</h3>
+                <p class="panel-sub">Edits, price adjustments, and availability toggles sync instantly with the live customer ordering website.</p>
+              </div>
+              <button type="button" class="btn-admin-primary" id="btn-add-dish-modal">
+                <span>+ Add New Dish</span>
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Dish Name & Description</th>
+                    <th>Price (PKR)</th>
+                    <th>Half Portion</th>
+                    <th>Popular</th>
+                    <th>Available</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="menu-management-body">
+                  <tr><td colspan="7" class="loading-td">Loading menu items...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             5. OFFERS & PROMOTIONS VIEW
+             ========================================== -->
+        <section class="admin-view" id="view-offers">
+          <div class="content-panel">
+            <div class="panel-header">
+              <div>
+                <h3>Promotional Offers & Codes</h3>
+                <p class="panel-sub">Active promotions display directly on the website ribbon and automatically apply discounts upon checkout.</p>
+              </div>
+              <button type="button" class="btn-admin-primary" id="btn-add-offer-modal">
+                <span>+ Create New Offer</span>
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Title & Description</th>
+                    <th>Promo Code</th>
+                    <th>Discount %</th>
+                    <th>Min Order</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="offers-management-body">
+                  <tr><td colspan="6" class="loading-td">Loading offers...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             6. SALES & ANALYTICS VIEW
+             ========================================== -->
+        <section class="admin-view" id="view-analytics">
+          <div class="analytics-top-grid">
+            <div class="kpi-card">
+              <div class="kpi-header"><span>Average Order Value (AOV)</span></div>
+              <div class="kpi-value" id="analytics-aov">Rs 0</div>
+              <div class="kpi-footer">Based on verified database orders</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header"><span>Total Completed Orders</span></div>
+              <div class="kpi-value" id="analytics-total-count">0</div>
+              <div class="kpi-footer">Stored in MySQL</div>
+            </div>
+          </div>
+
+          <div class="analytics-split-grid">
+            <div class="content-panel">
+              <div class="panel-header">
+                <h3>Revenue by Day (Last 7 Days)</h3>
+              </div>
+              <div class="chart-bars-wrap" id="analytics-daily-chart">
+                <!-- Rendered with CSS bars -->
+              </div>
+            </div>
+
+            <div class="content-panel">
+              <div class="panel-header">
+                <h3>Order Fulfillment Breakdown</h3>
+              </div>
+              <div class="order-types-list" id="analytics-order-types">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+          </div>
+
+          <div class="content-panel" style="margin-top:24px;">
+            <div class="panel-header">
+              <h3>Top 5 Best-Selling Dishes</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Dish</th>
+                    <th>Total Servings Ordered</th>
+                    <th>Total Revenue Generated</th>
+                  </tr>
+                </thead>
+                <tbody id="analytics-top-dishes">
+                  <tr><td colspan="3" class="loading-td">Loading analytics...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             7. TABLE QR CODE HUB VIEW
+             ========================================== -->
+        <section class="admin-view" id="view-qr">
+          <div class="content-panel qr-hub-panel">
+            <div class="qr-hub-grid">
+              <div class="qr-preview-box">
+                <div class="qr-code-frame" id="qr-code-frame">
+                  <img id="restaurant-qr-img" src="/api/qr-image" alt="Scannable QR Code" width="220" height="220" style="display:block;border-radius:12px;margin:0 auto;">
+                </div>
+                <div class="qr-destination" style="margin-top:16px;">
+                  <label for="qr-target-input" style="font-size:11px;color:#555;display:block;margin-bottom:6px;font-weight:600;">Scannable Mobile URL:</label>
+                  <div style="display:flex;gap:6px;margin-bottom:8px;">
+                    <input type="text" id="qr-target-input" value="http://192.168.1.7:5000/" style="font-size:11px;padding:8px;background:#f5f2eb;color:#17130f;border:1px solid #dcd3c5;border-radius:6px;flex:1;">
+                    <button type="button" id="btn-update-qr" style="background:#17130f;color:#d6a961;border:none;border-radius:6px;padding:0 12px;font-size:11px;font-weight:700;">Update</button>
+                  </div>
+                  <small style="color:#777;font-size:10px;display:block;line-height:1.4;">
+                    📶 Mobile & PC must be on the same Wi-Fi. Detected LAN IP: <strong id="qr-detected-ip">192.168.1.7:5000</strong>
+                  </small>
+                </div>
+              </div>
+
+              <div class="qr-instructions">
+                <h3>Tabletop & Takeout QR Code</h3>
+                <p>Print or display this QR code on dining tables, tent cards, or takeaway packaging. When diners scan with their smartphone camera:</p>
+                <div class="qr-flow-steps">
+                  <div class="flow-step"><span>1</span> Opens mobile-optimized OTAQ dining experience</div>
+                  <div class="flow-step"><span>2</span> Prompts lightweight PWA home screen installation</div>
+                  <div class="flow-step"><span>3</span> Enables contactless table ordering, karahi customization & digital reservations</div>
+                </div>
+                <div class="qr-action-buttons">
+                  <button type="button" class="btn-admin-primary" id="btn-print-qr">
+                    <span>🖨️ Print Table Display</span>
+                  </button>
+                  <button type="button" class="btn-admin-outline" id="btn-copy-qr-url">
+                    <span>📋 Copy Website Link</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: ADD / EDIT DISH
+       ========================================== -->
+  <div class="admin-modal-backdrop" id="dish-modal-backdrop">
+    <div class="admin-modal">
+      <div class="modal-header">
+        <h3 id="dish-modal-title">Add New Dish to Menu</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-dish-modal">&times;</button>
+      </div>
+      <form id="dish-form">
+        <input type="hidden" id="dish-id">
+        <div class="form-group">
+          <label for="dish-cat">Menu Category *</label>
+          <select id="dish-cat" required>
+            <option value="1">BBQ Specialties</option>
+            <option value="2">Desi Karahi & Handi</option>
+            <option value="3">Chinese & Pulao</option>
+            <option value="4">Veg, Roti & Chai</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="dish-name">Dish Name *</label>
+          <input type="text" id="dish-name" required placeholder="e.g. Otaq Special Mutton Shinwari">
+        </div>
+
+        <div class="form-group">
+          <label for="dish-desc">Description</label>
+          <textarea id="dish-desc" rows="2" placeholder="Ingredients, preparation style..."></textarea>
+        </div>
+
+        <div class="form-group-row">
+          <div class="form-group">
+            <label for="dish-price">Price (PKR) *</label>
+            <input type="number" id="dish-price" step="10" required placeholder="1200">
+          </div>
+          <div class="form-group">
+            <label for="dish-half-price">Half Portion Price (Optional)</label>
+            <input type="number" id="dish-half-price" step="10" placeholder="650">
+          </div>
+        </div>
+
+        <div class="form-group-row">
+          <div class="form-group check-group">
+            <label>
+              <input type="checkbox" id="dish-popular">
+              <span>Mark as Popular / Featured</span>
+            </label>
+          </div>
+          <div class="form-group check-group">
+            <label>
+              <input type="checkbox" id="dish-available" checked>
+              <span>Currently Available in Kitchen</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-admin-outline" id="btn-cancel-dish">Cancel</button>
+          <button type="submit" class="btn-admin-primary" id="btn-save-dish">Save Dish</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: ADD / EDIT OFFER
+       ========================================== -->
+  <div class="admin-modal-backdrop" id="offer-modal-backdrop">
+    <div class="admin-modal">
+      <div class="modal-header">
+        <h3 id="offer-modal-title">Create Promotional Offer</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-offer-modal">&times;</button>
+      </div>
+      <form id="offer-form">
+        <input type="hidden" id="offer-id">
+        <div class="form-group">
+          <label for="offer-title">Offer Title *</label>
+          <input type="text" id="offer-title" required placeholder="e.g. Weekend Karahi Bonanza">
+        </div>
+
+        <div class="form-group">
+          <label for="offer-desc">Description</label>
+          <textarea id="offer-desc" rows="2" placeholder="Terms, eligible orders..."></textarea>
+        </div>
+
+        <div class="form-group-row">
+          <div class="form-group">
+            <label for="offer-code">Promo Code *</label>
+            <input type="text" id="offer-code" required placeholder="KARAHI20" uppercase>
+          </div>
+          <div class="form-group">
+            <label for="offer-discount">Discount % *</label>
+            <input type="number" id="offer-discount" min="1" max="90" required placeholder="20">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="offer-min-order">Minimum Order Amount (PKR)</label>
+          <input type="number" id="offer-min-order" placeholder="2000">
+        </div>
+
+        <div class="form-group check-group">
+          <label>
+            <input type="checkbox" id="offer-active" checked>
+            <span>Active on Website Ribbon & Cart</span>
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-admin-outline" id="btn-cancel-offer">Cancel</button>
+          <button type="submit" class="btn-admin-primary" id="btn-save-offer">Save Offer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: ORDER DETAILS
+       ========================================== -->
+  <div class="admin-modal-backdrop" id="order-detail-backdrop">
+    <div class="admin-modal order-detail-modal">
+      <div class="modal-header">
+        <h3 id="od-number">Order #OTAQ-0000</h3>
+        <button type="button" class="modal-close-btn" id="btn-close-od-modal">&times;</button>
+      </div>
+      <div class="od-body" id="od-content"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn-admin-outline" id="btn-close-od">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER FOR ADMIN -->
+  <div class="toast-container" id="admin-toast-container" aria-live="polite"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
