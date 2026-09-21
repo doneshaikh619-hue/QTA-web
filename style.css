@@ -1413,3 +1413,218 @@ blockquote{margin:28px 0 auto;font-family:'Playfair Display',serif;font-size:20p
   .js .reveal{opacity:1;transform:none;transition:none}
   .btn,.menu-card,.gallery-card img,.cloud-layer{transition:none}
 }
+
+/* ==========================================
+   VIP APP DOWNLOAD & NOTIFICATION SYSTEM
+   ========================================== */
+.vip-install-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .35s cubic-bezier(0.16, 1, 0.3, 1), visibility .35s;
+}
+.vip-install-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+.vip-install-modal {
+  width: 100%;
+  max-width: 480px;
+  background: linear-gradient(170deg, #18130e 0%, #0a0806 100%);
+  border: 1px solid rgba(214, 169, 97, 0.45);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.9), 0 0 30px rgba(214,169,97,0.18);
+  position: relative;
+  transform: translateY(40px);
+  transition: transform .35s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #fff;
+}
+.vip-install-backdrop.open .vip-install-modal {
+  transform: translateY(0);
+}
+.vip-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #c9bca8;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .2s;
+}
+.vip-modal-close:hover {
+  background: rgba(214,169,97,0.2);
+  color: #d6a961;
+}
+.vip-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.vip-app-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  border: 1.5px solid rgba(214, 169, 97, 0.5);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5), 0 0 15px rgba(214,169,97,0.25);
+  background: #0a0a0a;
+  flex-shrink: 0;
+}
+.vip-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #d6a961;
+  background: rgba(214,169,97,0.12);
+  border: 1px solid rgba(214,169,97,0.25);
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-bottom: 4px;
+}
+.vip-install-modal h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  color: #f7f1e7;
+  margin: 0;
+  line-height: 1.2;
+}
+.vip-modal-desc {
+  font-size: 13px;
+  color: #c9bca8;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+.vip-features-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.vip-feat-pill {
+  font-size: 12px;
+  color: #e8dccb;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(214,169,97,0.18);
+  padding: 8px 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vip-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.btn-vip-install {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #d6a961 0%, #a47631 100%);
+  color: #0a0806;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .03em;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(214,169,97,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform .2s, filter .2s;
+}
+.btn-vip-install:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+.btn-vip-notify {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(214, 169, 97, 0.4);
+  color: #f7f1e7;
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all .2s;
+}
+.btn-vip-notify:hover {
+  background: rgba(214,169,97,0.15);
+  border-color: #d6a961;
+}
+.vip-install-instructions {
+  margin-top: 14px;
+  padding: 14px;
+  background: rgba(0,0,0,0.5);
+  border: 1px dashed rgba(214,169,97,0.3);
+  border-radius: 12px;
+  font-size: 12px;
+  color: #c9bca8;
+  line-height: 1.5;
+}
+.inst-step {
+  margin-bottom: 8px;
+}
+.inst-step:last-child {
+  margin-bottom: 0;
+}
+.inst-icon {
+  background: rgba(255,255,255,0.12);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #d6a961;
+  font-weight: 700;
+}
+
+/* Floating Sticky App Trigger Button (Always visible on mobile bottom) */
+.floating-app-trigger {
+  position: fixed;
+  bottom: 82px;
+  right: 14px;
+  z-index: 999;
+  background: linear-gradient(135deg, #d6a961 0%, #b2823b 100%);
+  color: #0a0806;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6), 0 0 16px rgba(214,169,97,0.35);
+  cursor: pointer;
+  animation: pulseGoldGlow 3s infinite;
+}
+@keyframes pulseGoldGlow {
+  0%, 100% { box-shadow: 0 8px 24px rgba(0,0,0,0.6), 0 0 16px rgba(214,169,97,0.35); }
+  50% { box-shadow: 0 8px 28px rgba(0,0,0,0.7), 0 0 24px rgba(214,169,97,0.65); }
+}

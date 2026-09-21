@@ -368,6 +368,54 @@
                 </tbody>
               </table>
             </div>
+            <!-- LIVE PUSH NOTIFICATION BROADCASTER -->
+            <div class="push-broadcast-card">
+              <div class="push-card-header">
+                <div>
+                  <div class="push-badge">⚡ VIP MARKETING ENGINE</div>
+                  <h4 style="margin:4px 0 2px;font-size:18px;color:#fff;">📢 Broadcast Push Notification to Customer Mobiles</h4>
+                  <p class="panel-sub">Send instant lock-screen alerts to diners who scanned your QR code or installed your VIP App.</p>
+                </div>
+                <div class="push-stats-badge">
+                  <span class="live-dot"></span>
+                  <span>Live Audience Ready</span>
+                </div>
+              </div>
+
+              <div class="push-presets-cluster">
+                <span class="preset-label">Quick Campaign Presets:</span>
+                <button type="button" class="btn-preset-push" data-title="🔥 Midnight Karahi Feast — 20% OFF!" data-body="Hot charcoal BBQ & Shinwari mutton ready for delivery in Johar! Tap to feast.">Koyla Karahi 20% Deal</button>
+                <button type="button" class="btn-preset-push" data-title="🎉 Weekend Family Courtyard Open!" data-body="Reserve your open-air shamiana table tonight before full booking. Tap here.">Family Table Alert</button>
+                <button type="button" class="btn-preset-push" data-title="☕ Complimentary Matka Chai Tonight!" data-body="Enjoy free clay-pot chai on all delivery orders above Rs 2,000 tonight.">Free Chai Offer</button>
+              </div>
+
+              <form id="push-broadcast-form" class="push-broadcast-form">
+                <div class="form-group-row">
+                  <div class="form-group">
+                    <label for="push-title">Campaign Title / Alert Heading</label>
+                    <input type="text" id="push-title" value="🔥 Midnight Karahi Feast — 20% OFF!" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="push-promo">Attach Promo Code</label>
+                    <input type="text" id="push-promo" value="JOHAR15" placeholder="e.g. JOHAR15">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="push-message">Notification Message Body</label>
+                  <textarea id="push-message" rows="2" required>Hot charcoal BBQ & Shinwari mutton ready for delivery in Johar! Tap to feast.</textarea>
+                </div>
+
+                <div class="push-form-actions">
+                  <button type="submit" class="btn-admin-primary btn-broadcast-push" id="btn-broadcast-push">
+                    <span>🚀 Broadcast to Customer Mobiles Now</span>
+                  </button>
+                  <button type="button" class="btn-admin-secondary" id="btn-test-push-local">
+                    <span>🔔 Test Alert on This Screen</span>
+                  </button>
+                </div>
+                <div class="push-broadcast-status" id="push-broadcast-status"></div>
+              </form>
+            </div>
           </div>
         </section>
 

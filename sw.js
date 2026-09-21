@@ -1,12 +1,12 @@
-const CACHE_NAME = 'otaq-shell-v1';
+const CACHE_NAME = 'otaq-shell-v2';
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/script.js',
-  '/manifest.webmanifest',
-  '/assets/icon-192.svg',
-  '/assets/icon-512.svg'
+  './',
+  './index.html',
+  './style.css',
+  './script.js',
+  './manifest.webmanifest',
+  './assets/icon-192.svg',
+  './assets/icon-512.svg'
 ];
 
 self.addEventListener('install', event => {
@@ -30,11 +30,11 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // For API calls, use Network first, do not fallback to cached shell
-  if (url.pathname.startsWith('/api/')) {
+  // For API calls, use Network first
+  if (url.pathname.includes('/api/')) {
     event.respondWith(
       fetch(event.request).catch(() => {
-        return new Response(JSON.stringify({ success: false, error: 'You appear to be offline. Please check your network connection.' }), {
+        return new Response(JSON.stringify({ success: false, error: 'Offline fallback active.' }), {
           headers: { 'Content-Type': 'application/json' }
         });
       })
@@ -56,6 +56,41 @@ self.addEventListener('fetch', event => {
       }).catch(() => cachedResponse);
 
       return cachedResponse || fetchPromise;
+    })
+  );
+});
+
+// Real-time Push Notification handler
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SHOW_NOTIFICATION') {
+    const title = event.data.title || 'OTAQ Restaurant Alert';
+    const options = {
+      body: event.data.body || 'New chef special available tonight at OTAQ!',
+      icon: './assets/icon-192.svg',
+      badge: './assets/icon-192.svg',
+      vibrate: [200, 100, 200],
+      data: event.data.data || {},
+      actions: [
+        { action: 'open', title: '🍽️ View Feast' },
+        { action: 'close', title: 'Dismiss' }
+      ]
+    };
+    self.registration.showNotification(title, options);
+  }
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+      for (const client of clientList) {
+        if (client.url && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow('./index.html');
+      }
     })
   );
 });

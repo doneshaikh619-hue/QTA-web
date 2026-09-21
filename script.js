@@ -945,7 +945,7 @@
   }
 
   // ==========================================
-  // PWA SERVICE WORKER & SMART INSTALL PROMPT
+  // PWA SERVICE WORKER & VIP APP INSTALL / NOTIFICATIONS
   // ==========================================
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -955,46 +955,170 @@
     });
   }
 
-  const pwaBanner = document.getElementById('pwa-banner');
-  const btnPwaInstall = document.getElementById('btn-pwa-install');
-  const btnPwaDismiss = document.getElementById('btn-pwa-dismiss');
+  const vipBackdrop = document.getElementById('vip-install-backdrop');
+  const btnCloseVip = document.getElementById('btn-close-vip-modal');
+  const btnVipInstall = document.getElementById('btn-vip-install');
+  const btnVipNotify = document.getElementById('btn-vip-notify');
+  const vipInstructions = document.getElementById('vip-instructions');
+  const floatingAppTrigger = document.getElementById('floating-app-trigger');
   const footerInstallBtn = document.getElementById('footer-install-btn');
 
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    state.deferredPrompt = e;
+  function openVipModal() {
+    if (vipBackdrop) {
+      vipBackdrop.classList.add('open');
+      vipBackdrop.setAttribute('aria-hidden', 'false');
+    }
+  }
 
-    const dismissed = sessionStorage.getItem('otaq_pwa_dismissed');
-    if (!dismissed && pwaBanner) {
-      setTimeout(() => {
-        pwaBanner.style.display = 'block';
-      }, 2500);
+  function closeVipModal() {
+    if (vipBackdrop) {
+      vipBackdrop.classList.remove('open');
+      vipBackdrop.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  if (btnCloseVip) btnCloseVip.addEventListener('click', () => {
+    closeVipModal();
+    sessionStorage.setItem('otaq_vip_dismissed', 'true');
+  });
+
+  if (floatingAppTrigger) floatingAppTrigger.addEventListener('click', openVipModal);
+  if (footerInstallBtn) footerInstallBtn.addEventListener('click', openVipModal);
+
+  // Auto show VIP install prompt after 1.5s if mobile / QR visitor
+  window.addEventListener('load', () => {
+    const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const dismissed = sessionStorage.getItem('otaq_vip_dismissed');
+    if (isMobile && !dismissed) {
+      setTimeout(openVipModal, 1600);
     }
   });
 
-  async function triggerInstallPrompt() {
-    if (state.deferredPrompt) {
-      state.deferredPrompt.prompt();
-      const { outcome } = await state.deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        showToast('Thank you for installing OTAQ App!', 'success');
+  // Capture beforeinstallprompt for Chrome Android
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    state.deferredPrompt = e;
+  });
+
+  // Handle App Download / Install
+  if (btnVipInstall) {
+    btnVipInstall.addEventListener('click', async () => {
+      if (state.deferredPrompt) {
+        state.deferredPrompt.prompt();
+        const { outcome } = await state.deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          showToast('🎉 OTAQ App installed to your phone!', 'success');
+          closeVipModal();
+        }
+        state.deferredPrompt = null;
+      } else {
+        // Show platform-specific instructions for Safari or Chrome
+        if (vipInstructions) {
+          vipInstructions.style.display = 'block';
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+          const iosEl = document.getElementById('inst-ios');
+          const androidEl = document.getElementById('inst-android');
+          if (isIOS) {
+            if (iosEl) iosEl.style.color = '#d6a961';
+          } else {
+            if (androidEl) androidEl.style.color = '#d6a961';
+          }
+        }
+        showToast('Follow the steps below to save OTAQ to your phone screen.', 'info');
       }
-      state.deferredPrompt = null;
-      if (pwaBanner) pwaBanner.style.display = 'none';
-    } else {
-      showToast('To install: open browser menu (⋮) and tap "Add to Home screen".', 'info');
-    }
-  }
-
-  if (btnPwaInstall) btnPwaInstall.addEventListener('click', triggerInstallPrompt);
-  if (footerInstallBtn) footerInstallBtn.addEventListener('click', triggerInstallPrompt);
-
-  if (btnPwaDismiss && pwaBanner) {
-    btnPwaDismiss.addEventListener('click', () => {
-      pwaBanner.style.display = 'none';
-      sessionStorage.setItem('otaq_pwa_dismissed', 'true');
     });
   }
+
+  // Soft Web Audio chime
+  function playNotificationSound() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.45);
+    } catch (e) {}
+  }
+
+  // Real-time notification trigger
+  function showLiveNotification(title, body) {
+    playNotificationSound();
+    if ('Notification' in window && Notification.permission === 'granted') {
+      if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({
+          type: 'SHOW_NOTIFICATION',
+          title: title,
+          body: body
+        });
+      } else {
+        try {
+          new Notification(title, {
+            body: body,
+            icon: 'assets/icon-192.svg'
+          });
+        } catch (e) {}
+      }
+    }
+    showToast(`🔔 ${title}: ${body}`, 'success');
+  }
+
+  // Request Notification Permission
+  if (btnVipNotify) {
+    // Check if already granted
+    if ('Notification' in window && Notification.permission === 'granted') {
+      btnVipNotify.innerHTML = '<span>✅ VIP Notifications Active</span>';
+      btnVipNotify.style.borderColor = '#48bb78';
+    }
+
+    btnVipNotify.addEventListener('click', async () => {
+      if (!('Notification' in window)) {
+        showToast('Push notifications not supported on this browser.', 'error');
+        return;
+      }
+
+      try {
+        const perm = await Notification.requestPermission();
+        if (perm === 'granted') {
+          btnVipNotify.innerHTML = '<span>✅ VIP Notifications Active</span>';
+          btnVipNotify.style.borderColor = '#48bb78';
+          localStorage.setItem('otaq_push_active', 'true');
+          showLiveNotification('🎉 Welcome to OTAQ VIP Club!', 'Notifications enabled! You will now receive secret deals and kitchen order alerts.');
+        } else {
+          showToast('Notification permission was dismissed.', 'info');
+        }
+      } catch (err) {
+        showToast('Could not enable notifications.', 'error');
+      }
+    });
+  }
+
+  // Cross-tab & Admin Live Push Broadcast Listener
+  const pushChannel = 'BroadcastChannel' in window ? new BroadcastChannel('otaq_push_channel') : null;
+  if (pushChannel) {
+    pushChannel.onmessage = e => {
+      if (e.data && e.data.title) {
+        showLiveNotification(e.data.title, e.data.body || 'Special dining alert from OTAQ!');
+      }
+    };
+  }
+
+  window.addEventListener('storage', e => {
+    if (e.key === 'otaq_broadcast_push' && e.newValue) {
+      try {
+        const data = JSON.parse(e.newValue);
+        showLiveNotification(data.title, data.body || 'Special dining alert from OTAQ!');
+      } catch (err) {}
+    }
+  });
 
   // ==========================================
   // YEAR & SMOOTH SCROLL

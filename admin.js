@@ -1058,6 +1058,113 @@
   }
 
   // ==========================================
+  // PUSH NOTIFICATION BROADCASTER (ADMIN)
+  // ==========================================
+  const pushForm = document.getElementById('push-broadcast-form');
+  const pushTitleInput = document.getElementById('push-title');
+  const pushMsgInput = document.getElementById('push-message');
+  const pushPromoInput = document.getElementById('push-promo');
+  const pushStatus = document.getElementById('push-broadcast-status');
+  const btnTestLocalPush = document.getElementById('btn-test-push-local');
+
+  // Presets
+  document.querySelectorAll('.btn-preset-push').forEach(btn => {
+    btn.onclick = () => {
+      if (pushTitleInput) pushTitleInput.value = btn.dataset.title;
+      if (pushMsgInput) pushMsgInput.value = btn.dataset.body;
+      showAdminToast('Campaign preset loaded', 'info');
+    };
+  });
+
+  function broadcastPushNotification(title, message, promo = '') {
+    const payload = {
+      title,
+      body: message + (promo ? ` (Use Code: ${promo})` : ''),
+      promo,
+      timestamp: Date.now()
+    };
+
+    // 1. BroadcastChannel across all open client tabs/windows
+    if ('BroadcastChannel' in window) {
+      try {
+        const channel = new BroadcastChannel('otaq_push_channel');
+        channel.postMessage(payload);
+      } catch (e) {}
+    }
+
+    // 2. LocalStorage trigger (wakes up any client tab or background listener)
+    try {
+      localStorage.setItem('otaq_broadcast_push', JSON.stringify(payload));
+    } catch (e) {}
+
+    // 3. Service Worker trigger
+    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SHOW_NOTIFICATION',
+        title: payload.title,
+        body: payload.body
+      });
+    }
+
+    // 4. Also notify server if online
+    fetch('/api/admin/broadcast-push', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
+  }
+
+  if (pushForm) {
+    pushForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const title = pushTitleInput ? pushTitleInput.value.trim() : '';
+      const body = pushMsgInput ? pushMsgInput.value.trim() : '';
+      const promo = pushPromoInput ? pushPromoInput.value.trim() : '';
+
+      if (!title || !body) {
+        showAdminToast('Please provide both title and notification message', 'error');
+        return;
+      }
+
+      broadcastPushNotification(title, body, promo);
+
+      if (pushStatus) {
+        pushStatus.style.display = 'block';
+        pushStatus.textContent = `✓ Campaign "${title}" broadcasted to all customer devices!`;
+        setTimeout(() => { pushStatus.style.display = 'none'; }, 6000);
+      }
+      showAdminToast('Broadcast sent to customer mobiles!', 'success');
+    });
+  }
+
+  if (btnTestLocalPush) {
+    btnTestLocalPush.addEventListener('click', async () => {
+      const title = pushTitleInput ? pushTitleInput.value.trim() : 'OTAQ VIP Special';
+      const body = pushMsgInput ? pushMsgInput.value.trim() : 'Taste test alert from OTAQ!';
+
+      if ('Notification' in window) {
+        if (Notification.permission !== 'granted') {
+          await Notification.requestPermission();
+        }
+        if (Notification.permission === 'granted') {
+          new Notification(title, {
+            body,
+            icon: 'assets/icon-192.svg'
+          });
+          showAdminToast('Test notification shown on screen!', 'success');
+        } else {
+          showAdminToast('Please allow browser notifications in settings to test', 'info');
+        }
+      } else {
+        showAdminToast('Notification API not supported on this browser', 'error');
+      }
+    });
+  }
+
+  // ==========================================
   // 6. SALES & ANALYTICS VIEW
   // ==========================================
   async function loadAnalytics() {

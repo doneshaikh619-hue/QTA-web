@@ -612,21 +612,54 @@
   </div>
 
   <!-- ==========================================
-       PWA INSTALL SMART BANNER / MODAL
+       VIP APP DOWNLOAD & NOTIFICATIONS MODAL
        ========================================== -->
-  <div class="pwa-install-banner" id="pwa-banner" role="banner" aria-label="Install App" style="display:none;">
-    <div class="pwa-banner-inner">
-      <img src="/assets/icon-192.svg" alt="OTAQ App" class="pwa-banner-icon">
-      <div class="pwa-banner-text">
-        <strong>Install OTAQ Restaurant App</strong>
-        <span>Instant ordering, live table status & offline menu access without APK download.</span>
+  <div class="vip-install-backdrop" id="vip-install-backdrop" aria-hidden="true">
+    <div class="vip-install-modal" role="dialog" aria-labelledby="vip-modal-title">
+      <button type="button" class="vip-modal-close" id="btn-close-vip-modal" aria-label="Close">&times;</button>
+      
+      <div class="vip-modal-header">
+        <img src="assets/icon-192.svg" alt="OTAQ App" class="vip-app-icon">
+        <div>
+          <div class="vip-badge">OFFICIAL RESTAURANT APP</div>
+          <h3 id="vip-modal-title">Download OTAQ VIP App</h3>
+        </div>
       </div>
-      <div class="pwa-banner-actions">
-        <button type="button" class="btn-pwa-install" id="btn-pwa-install">Install App</button>
-        <button type="button" class="btn-pwa-dismiss" id="btn-pwa-dismiss" aria-label="Dismiss">&times;</button>
+
+      <p class="vip-modal-desc">
+        Save to your phone’s screen for <strong>1-Tap Fast Ordering</strong>, secret discounts, and instant table booking!
+      </p>
+
+      <div class="vip-features-grid">
+        <div class="vip-feat-pill">⚡ <strong>Instant Download</strong> — No Play Store / APK needed</div>
+        <div class="vip-feat-pill">🔔 <strong>Live Alerts</strong> — Hot discounts & kitchen order updates</div>
+        <div class="vip-feat-pill">🎁 <strong>Special Deal</strong> — Use code <strong>JOHAR15</strong> for 15% OFF</div>
+      </div>
+
+      <div class="vip-modal-actions">
+        <button type="button" class="btn-vip-install" id="btn-vip-install">
+          <span>📲 Download & Install App</span>
+        </button>
+        <button type="button" class="btn-vip-notify" id="btn-vip-notify">
+          <span>🔔 Allow VIP Notifications</span>
+        </button>
+      </div>
+
+      <div class="vip-install-instructions" id="vip-instructions" style="display:none;">
+        <div class="inst-step" id="inst-ios">
+          <strong>📱 iPhone / Safari:</strong> Tap the Share button <span class="inst-icon">⎋</span> at the bottom of Safari, then choose <strong>"Add to Home Screen" ➕</strong>.
+        </div>
+        <div class="inst-step" id="inst-android">
+          <strong>📱 Android / Chrome:</strong> Tap the 3 dots <span class="inst-icon">⋮</span> at the top right of Chrome, then choose <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Persistent Floating Trigger Button -->
+  <button type="button" class="floating-app-trigger" id="floating-app-trigger" aria-label="Get App & VIP Offers">
+    <span>📲 Download App & Deals</span>
+  </button>
 
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
