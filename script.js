@@ -962,6 +962,7 @@
   const vipModalDesc = document.getElementById('vip-modal-desc');
   const vipModalBadge = document.getElementById('vip-modal-badge');
   const btnVipExploreMenu = document.getElementById('btn-vip-explore-menu');
+  const btnCloseBottom = document.getElementById('btn-vip-close-bottom');
 
   function isAppDownloaded() {
     return localStorage.getItem('otaq_app_downloaded') === 'true' ||
@@ -1023,6 +1024,13 @@
 
   if (btnCloseVip) {
     btnCloseVip.addEventListener('click', () => {
+      closeVipModal();
+      sessionStorage.setItem('otaq_vip_dismissed', 'true');
+    });
+  }
+
+  if (btnCloseBottom) {
+    btnCloseBottom.addEventListener('click', () => {
       closeVipModal();
       sessionStorage.setItem('otaq_vip_dismissed', 'true');
     });
@@ -1285,6 +1293,7 @@
   }
 
   // Initialize
+  syncVipModalState();
   loadMenuFromAPI();
   loadActiveOffers();
   updateCartUI();

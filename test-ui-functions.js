@@ -90,6 +90,7 @@ const ids = [
   'btn-download-shortcut',
   'vip-instructions', 'inst-ios', 'inst-android', 'floating-app-trigger', 'footer-install-btn',
   'vip-download-section', 'vip-post-download-section', 'vip-modal-title', 'vip-modal-desc', 'vip-modal-badge', 'btn-vip-explore-menu',
+  'btn-vip-close-bottom',
   'year'
 ];
 
@@ -326,6 +327,16 @@ if (btnExploreMenu && btnExploreMenu.listeners['click']) {
   btnExploreMenu.dispatchEvent({ type: 'click' });
   if (!vipBackdrop.classList.contains('open')) {
     console.log('✅ PASS: btn-vip-explore-menu closes modal!');
+  }
+}
+
+// 8. Test bottom Close Window button
+const btnCloseBottom = elements.get('btn-vip-close-bottom');
+footerInstallBtn.dispatchEvent({ type: 'click' });
+if (btnCloseBottom && btnCloseBottom.listeners['click']) {
+  btnCloseBottom.dispatchEvent({ type: 'click' });
+  if (!vipBackdrop.classList.contains('open')) {
+    console.log('✅ PASS: btn-vip-close-bottom closes modal!');
   }
 }
 
