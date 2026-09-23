@@ -1106,7 +1106,7 @@
         try {
           new Notification(title, {
             body: body,
-            icon: 'assets/icon-192.svg'
+            icon: 'assets/icon-192.png'
           });
         } catch (e) {}
       }

@@ -68,8 +68,8 @@ self.addEventListener('message', event => {
     const title = event.data.title || 'OTAQ Restaurant Alert';
     const options = {
       body: event.data.body || 'New chef special available tonight at OTAQ!',
-      icon: './assets/icon-192.svg',
-      badge: './assets/icon-192.svg',
+      icon: './assets/icon-192.png',
+      badge: './assets/icon-192.png',
       vibrate: [200, 100, 200],
       data: event.data.data || {},
       actions: [

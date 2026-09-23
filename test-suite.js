@@ -165,6 +165,17 @@ async function runTests() {
     const verifyTrack = await request({ host: 'localhost', port: 5000, path: `/api/orders/${placedOrderNumber}`, method: 'GET' });
     assert(verifyTrack.json.order.status === 'preparing', 'Customer tracking immediately reflects PREPARING status');
 
+    // Admin Broadcast Push Notification
+    const broadcastRes = await request({
+      host: 'localhost', port: 5000, path: '/api/admin/broadcast-push', method: 'POST',
+      headers: { 'Authorization': `Bearer ${adminToken}` }
+    }, {
+      title: '⚡ Midnight BBQ Flash 30% OFF',
+      message: 'Exclusive VIP offer on all platters tonight!',
+      promo: 'VIP30'
+    });
+    assert(broadcastRes.status === 200 && broadcastRes.json.success === true, 'Admin VIP push notification broadcasted successfully');
+
     // 6. Menu Management CRUD
     console.log('\n--- 6. Testing Menu Management (CRUD) ---');
     // Create new dish

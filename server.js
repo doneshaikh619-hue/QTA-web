@@ -817,6 +817,25 @@ app.get('/api/admin/notifications', authenticateAdmin, async (req, res) => {
   }
 });
 
+// Broadcast Push Notification endpoint
+app.post('/api/admin/broadcast-push', authenticateAdmin, async (req, res) => {
+  try {
+    const { title, message, promo } = req.body;
+    if (!title || !message) {
+      return res.status(400).json({ success: false, error: 'Title and message are required' });
+    }
+    const fullMessage = message + (promo ? ` (Use Code: ${promo})` : '');
+    await query(
+      `INSERT INTO notifications (title, message, type, target) VALUES (?, ?, 'broadcast', 'all')`,
+      [title, fullMessage]
+    );
+    res.json({ success: true, message: 'Notification broadcasted and logged successfully' });
+  } catch (err) {
+    console.error('Error broadcasting push notification:', err);
+    res.status(500).json({ success: false, error: 'Failed to record broadcast' });
+  }
+});
+
 // Network information endpoint for mobile Wi-Fi QR resolution
 app.get('/api/network-info', (req, res) => {
   const localIP = getLocalIP();
