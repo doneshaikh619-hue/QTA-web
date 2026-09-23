@@ -956,8 +956,58 @@
   const vipInstructions = document.getElementById('vip-instructions');
   const floatingAppTrigger = document.getElementById('floating-app-trigger');
   const footerInstallBtn = document.getElementById('footer-install-btn');
+  const vipDownloadSection = document.getElementById('vip-download-section');
+  const vipPostDownloadSection = document.getElementById('vip-post-download-section');
+  const vipModalTitle = document.getElementById('vip-modal-title');
+  const vipModalDesc = document.getElementById('vip-modal-desc');
+  const vipModalBadge = document.getElementById('vip-modal-badge');
+  const btnVipExploreMenu = document.getElementById('btn-vip-explore-menu');
+
+  function isAppDownloaded() {
+    return localStorage.getItem('otaq_app_downloaded') === 'true' ||
+           localStorage.getItem('otaq_app_installed') === 'true';
+  }
+
+  function setAppDownloaded() {
+    localStorage.setItem('otaq_app_downloaded', 'true');
+    localStorage.setItem('otaq_app_installed', 'true');
+    syncVipModalState();
+  }
+
+  function syncVipModalState() {
+    const downloaded = isAppDownloaded();
+    if (downloaded) {
+      if (vipDownloadSection) vipDownloadSection.style.display = 'none';
+      if (vipPostDownloadSection) vipPostDownloadSection.style.display = 'block';
+      if (vipModalTitle) vipModalTitle.textContent = 'OTAQ VIP Member Perks';
+      if (vipModalBadge) vipModalBadge.textContent = 'VIP MEMBER STATUS ACTIVE';
+      if (vipModalDesc) {
+        vipModalDesc.innerHTML = 'App added to your device! Enable live notifications below to get secret discounts and order alerts.';
+      }
+      if (floatingAppTrigger) {
+        floatingAppTrigger.innerHTML = '<span>👑 VIP Perks & Deals</span>';
+      }
+    } else {
+      if (vipDownloadSection) vipDownloadSection.style.display = 'block';
+      if (vipPostDownloadSection) vipPostDownloadSection.style.display = 'none';
+      if (vipModalTitle) vipModalTitle.textContent = 'Download OTAQ VIP App';
+      if (vipModalBadge) vipModalBadge.textContent = 'OFFICIAL RESTAURANT APP';
+      if (vipModalDesc) {
+        vipModalDesc.innerHTML = 'Save to your device for <strong>1-Tap Fast Ordering</strong>, secret discounts, and instant table booking!';
+      }
+      if (floatingAppTrigger) {
+        floatingAppTrigger.innerHTML = '<span>📲 Download App & Deals</span>';
+      }
+    }
+
+    if (btnVipNotify && 'Notification' in window && Notification.permission === 'granted') {
+      btnVipNotify.innerHTML = '<span>✅ VIP Notifications Active</span>';
+      btnVipNotify.classList.add('is-active');
+    }
+  }
 
   function openVipModal() {
+    syncVipModalState();
     if (vipBackdrop) {
       vipBackdrop.classList.add('open');
       vipBackdrop.setAttribute('aria-hidden', 'false');
@@ -971,19 +1021,45 @@
     }
   }
 
-  if (btnCloseVip) btnCloseVip.addEventListener('click', () => {
-    closeVipModal();
-    sessionStorage.setItem('otaq_vip_dismissed', 'true');
-  });
+  if (btnCloseVip) {
+    btnCloseVip.addEventListener('click', () => {
+      closeVipModal();
+      sessionStorage.setItem('otaq_vip_dismissed', 'true');
+    });
+  }
+
+  if (vipBackdrop) {
+    vipBackdrop.addEventListener('click', e => {
+      if (e.target === vipBackdrop) {
+        closeVipModal();
+        sessionStorage.setItem('otaq_vip_dismissed', 'true');
+      }
+    });
+  }
+
+  if (typeof document !== 'undefined' && document.addEventListener) {
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && vipBackdrop && vipBackdrop.classList.contains('open')) {
+        closeVipModal();
+        sessionStorage.setItem('otaq_vip_dismissed', 'true');
+      }
+    });
+  }
+
+  if (btnVipExploreMenu) {
+    btnVipExploreMenu.addEventListener('click', () => {
+      closeVipModal();
+    });
+  }
 
   if (floatingAppTrigger) floatingAppTrigger.addEventListener('click', openVipModal);
   if (footerInstallBtn) footerInstallBtn.addEventListener('click', openVipModal);
 
-  // Auto show VIP install prompt after 1.5s if mobile / QR visitor
+  // Auto show VIP install prompt after 1.5s ONLY if mobile, not downloaded, and not dismissed
   window.addEventListener('load', () => {
     const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const dismissed = sessionStorage.getItem('otaq_vip_dismissed');
-    if (isMobile && !dismissed) {
+    if (isMobile && !dismissed && !isAppDownloaded()) {
       setTimeout(openVipModal, 1600);
     }
   });
@@ -1000,14 +1076,19 @@
     }
   });
 
+  window.addEventListener('appinstalled', () => {
+    setAppDownloaded();
+    showToast('🎉 OTAQ App successfully installed!', 'success');
+  });
+
   async function triggerNativeInstall() {
     if (state.deferredPrompt) {
       try {
         state.deferredPrompt.prompt();
         const { outcome } = await state.deferredPrompt.userChoice;
         if (outcome === 'accepted') {
+          setAppDownloaded();
           showToast('🎉 OTAQ App successfully installed to your phone screen!', 'success');
-          closeVipModal();
         }
         state.deferredPrompt = null;
         installRequested = false;
@@ -1019,9 +1100,10 @@
     return false;
   }
 
-  // Handle App Download / Install
+  // Handle App Download / Install button click
   if (btnVipInstall) {
     btnVipInstall.addEventListener('click', async () => {
+      setAppDownloaded();
       if (state.deferredPrompt) {
         await triggerNativeInstall();
         return;
@@ -1053,6 +1135,7 @@
   const btnDownloadShortcut = document.getElementById('btn-download-shortcut');
   if (btnDownloadShortcut) {
     btnDownloadShortcut.addEventListener('click', () => {
+      setAppDownloaded();
       try {
         const fullUrl = window.location.href;
         const shortcutContent = `[InternetShortcut]\r\nURL=${fullUrl}\r\nIconIndex=0\r\nIconFile=${window.location.origin}/assets/icon-192.png\r\n`;
@@ -1065,7 +1148,7 @@
         a.click();
         a.remove();
         URL.revokeObjectURL(downloadUrl);
-        showToast('📥 OTAQ App Shortcut downloaded! Tap to launch.', 'success');
+        showToast('📥 OTAQ App Shortcut downloaded! Allow notifications below for live VIP perks.', 'success');
       } catch (e) {
         showToast('Could not generate download file.', 'error');
       }

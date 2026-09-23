@@ -1420,17 +1420,18 @@ blockquote{margin:28px 0 auto;font-family:'Playfair Display',serif;font-size:20p
 .vip-install-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.82);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 10000;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 20px;
+  overflow-y: auto;
   opacity: 0;
   visibility: hidden;
-  transition: opacity .35s cubic-bezier(0.16, 1, 0.3, 1), visibility .35s;
+  transition: opacity .3s ease, visibility .3s ease;
 }
 .vip-install-backdrop.open {
   opacity: 1;
@@ -1438,47 +1439,56 @@ blockquote{margin:28px 0 auto;font-family:'Playfair Display',serif;font-size:20p
 }
 .vip-install-modal {
   width: 100%;
-  max-width: 480px;
-  background: linear-gradient(170deg, #18130e 0%, #0a0806 100%);
-  border: 1px solid rgba(214, 169, 97, 0.45);
+  max-width: 500px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: linear-gradient(170deg, #1a140f 0%, #0a0806 100%);
+  border: 1.5px solid rgba(214, 169, 97, 0.5);
   border-radius: 24px;
-  padding: 24px;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.9), 0 0 30px rgba(214,169,97,0.18);
+  padding: 26px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.95), 0 0 35px rgba(214,169,97,0.2);
   position: relative;
-  transform: translateY(40px);
-  transition: transform .35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(20px) scale(0.98);
+  transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1);
   color: #fff;
+  margin: auto;
 }
 .vip-install-backdrop.open .vip-install-modal {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 .vip-modal-close {
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: #c9bca8;
-  font-size: 20px;
+  background: #1c1611;
+  border: 1.5px solid #d6a961;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all .2s;
+  z-index: 100;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+  transition: all .2s ease;
 }
 .vip-modal-close:hover {
-  background: rgba(214,169,97,0.2);
-  color: #d6a961;
+  background: #d6a961;
+  color: #0a0806;
+  transform: scale(1.1);
+  box-shadow: 0 0 16px rgba(214,169,97,0.5);
 }
 .vip-modal-header {
   display: flex;
   align-items: center;
   gap: 16px;
   margin-bottom: 12px;
+  padding-right: 36px;
 }
 .vip-app-icon {
   width: 60px;
@@ -1519,7 +1529,7 @@ blockquote{margin:28px 0 auto;font-family:'Playfair Display',serif;font-size:20p
   display: grid;
   grid-template-columns: 1fr;
   gap: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .vip-feat-pill {
   font-size: 12px;
@@ -1559,25 +1569,141 @@ blockquote{margin:28px 0 auto;font-family:'Playfair Display',serif;font-size:20p
   transform: translateY(-2px);
   filter: brightness(1.08);
 }
+
+/* Post-Download VIP Section */
+.vip-installed-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(72, 187, 120, 0.12);
+  border: 1.5px solid rgba(72, 187, 120, 0.4);
+  padding: 12px 14px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+}
+.installed-check {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.vip-installed-banner strong {
+  display: block;
+  font-size: 13px;
+  color: #68d391;
+  margin-bottom: 2px;
+}
+.vip-installed-banner p {
+  margin: 0;
+  font-size: 12px;
+  color: #c9bca8;
+  line-height: 1.4;
+}
+
+.vip-notify-box {
+  margin-bottom: 16px;
+}
 .btn-vip-notify {
   width: 100%;
-  padding: 12px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(214, 169, 97, 0.4);
-  color: #f7f1e7;
-  font-weight: 600;
-  font-size: 13px;
+  padding: 14px;
+  background: linear-gradient(135deg, #d6a961 0%, #a47631 100%);
+  color: #0a0806;
+  font-weight: 700;
+  font-size: 14px;
+  border: none;
   border-radius: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: all .2s;
+  box-shadow: 0 6px 20px rgba(214,169,97,0.35);
+  transition: transform .2s, filter .2s;
 }
 .btn-vip-notify:hover {
-  background: rgba(214,169,97,0.15);
-  border-color: #d6a961;
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+.btn-vip-notify.is-active {
+  background: rgba(72, 187, 120, 0.18);
+  border: 1.5px solid #48bb78;
+  color: #68d391;
+  box-shadow: 0 0 16px rgba(72, 187, 120, 0.25);
+}
+.vip-notify-hint {
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  color: #a89a85;
+  margin-top: 6px;
+}
+
+.vip-menu-perks {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(214, 169, 97, 0.2);
+  border-radius: 16px;
+  padding: 14px;
+}
+.vip-perks-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 15px;
+  color: #f7f1e7;
+  margin: 0 0 10px;
+}
+.vip-perks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+@media (max-width: 480px) {
+  .vip-perks-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.vip-perk-card {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(214, 169, 97, 0.15);
+  border-radius: 10px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.perk-icon {
+  font-size: 16px;
+  line-height: 1.2;
+}
+.vip-perk-card strong {
+  display: block;
+  font-size: 11px;
+  color: #edd3a4;
+  margin-bottom: 2px;
+}
+.vip-perk-card p {
+  margin: 0;
+  font-size: 10px;
+  color: #a89a85;
+  line-height: 1.3;
+}
+.btn-vip-explore-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px;
+  background: rgba(214, 169, 97, 0.15);
+  border: 1.5px solid var(--gold);
+  color: #f7f1e7;
+  font-weight: 700;
+  font-size: 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-vip-explore-menu:hover {
+  background: var(--gold);
+  color: #0a0806;
 }
 .vip-install-instructions {
   margin-top: 14px;

@@ -616,44 +616,98 @@
        ========================================== -->
   <div class="vip-install-backdrop" id="vip-install-backdrop" aria-hidden="true">
     <div class="vip-install-modal" role="dialog" aria-labelledby="vip-modal-title">
-      <button type="button" class="vip-modal-close" id="btn-close-vip-modal" aria-label="Close">&times;</button>
+      <button type="button" class="vip-modal-close" id="btn-close-vip-modal" aria-label="Close dialog" title="Close (Esc)">&times;</button>
       
       <div class="vip-modal-header">
-        <img src="assets/icon-192.svg" alt="OTAQ App" class="vip-app-icon">
+        <img src="assets/icon-192.png" alt="OTAQ App" class="vip-app-icon">
         <div>
-          <div class="vip-badge">OFFICIAL RESTAURANT APP</div>
+          <div class="vip-badge" id="vip-modal-badge">OFFICIAL RESTAURANT APP</div>
           <h3 id="vip-modal-title">Download OTAQ VIP App</h3>
         </div>
       </div>
 
-      <p class="vip-modal-desc">
-        Save to your phone’s screen for <strong>1-Tap Fast Ordering</strong>, secret discounts, and instant table booking!
+      <p class="vip-modal-desc" id="vip-modal-desc">
+        Save to your device for <strong>1-Tap Fast Ordering</strong>, secret discounts, and instant table booking!
       </p>
 
-      <div class="vip-features-grid">
-        <div class="vip-feat-pill">⚡ <strong>Instant Download</strong> — No Play Store / APK needed</div>
-        <div class="vip-feat-pill">🔔 <strong>Live Alerts</strong> — Hot discounts & kitchen order updates</div>
-        <div class="vip-feat-pill">🎁 <strong>Special Deal</strong> — Use code <strong>JOHAR15</strong> for 15% OFF</div>
-      </div>
-
-      <div class="vip-modal-actions">
-        <button type="button" class="btn-vip-install" id="btn-vip-install">
-          <span>📲 Download & Install App</span>
-        </button>
-        <button type="button" class="btn-vip-notify" id="btn-vip-notify">
-          <span>🔔 Allow VIP Notifications</span>
-        </button>
-        <button type="button" class="btn-download-shortcut" id="btn-download-shortcut">
-          <span>📥 Direct Download Launcher (.url)</span>
-        </button>
-      </div>
-
-      <div class="vip-install-instructions" id="vip-instructions">
-        <div class="inst-step" id="inst-ios">
-          <strong>📱 iPhone / Safari:</strong> Tap the Share button <span class="inst-icon">⎋</span> at bottom of Safari, then choose <strong>"Add to Home Screen" ➕</strong>.
+      <!-- PRE-DOWNLOAD VIEW: Download & Installation details (Shown before download) -->
+      <div class="vip-download-section" id="vip-download-section">
+        <div class="vip-features-grid">
+          <div class="vip-feat-pill">⚡ <strong>Instant Download</strong> — No Play Store / APK needed</div>
+          <div class="vip-feat-pill">🔔 <strong>Live Alerts</strong> — Hot discounts & kitchen order updates</div>
+          <div class="vip-feat-pill">🎁 <strong>Special Deal</strong> — Use code <strong>JOHAR15</strong> for 15% OFF</div>
         </div>
-        <div class="inst-step" id="inst-android">
-          <strong>📱 Android / Chrome:</strong> Tap the 3 dots <span class="inst-icon">⋮</span> at top right of Chrome, then tap <strong>"Install app"</strong> or <strong>"Add to Home screen" 📲</strong>.
+
+        <div class="vip-modal-actions">
+          <button type="button" class="btn-vip-install" id="btn-vip-install">
+            <span>📲 Download & Install App</span>
+          </button>
+          <button type="button" class="btn-download-shortcut" id="btn-download-shortcut">
+            <span>📥 Direct Download Launcher (.url)</span>
+          </button>
+        </div>
+
+        <div class="vip-install-instructions" id="vip-instructions">
+          <div class="inst-step" id="inst-ios">
+            <strong>📱 iPhone / Safari:</strong> Tap the Share button <span class="inst-icon">⎋</span> at bottom of Safari, then choose <strong>"Add to Home Screen" ➕</strong>.
+          </div>
+          <div class="inst-step" id="inst-android">
+            <strong>📱 Android / Chrome:</strong> Tap the 3 dots <span class="inst-icon">⋮</span> at top right of Chrome, then tap <strong>"Install app"</strong> or <strong>"Add to Home screen" 📲</strong>.
+          </div>
+        </div>
+      </div>
+
+      <!-- POST-DOWNLOAD VIEW: Shown after download (Allow Notification & VIP Menu Perks) -->
+      <div class="vip-post-download-section" id="vip-post-download-section" style="display:none;">
+        <div class="vip-installed-banner">
+          <span class="installed-check">✅</span>
+          <div>
+            <strong>OTAQ VIP App Active!</strong>
+            <p>Added to your device. Next step: Allow VIP notifications to receive exclusive discounts & kitchen alerts.</p>
+          </div>
+        </div>
+
+        <div class="vip-notify-box">
+          <button type="button" class="btn-vip-notify" id="btn-vip-notify">
+            <span>🔔 Allow VIP Notifications</span>
+          </button>
+          <span class="vip-notify-hint">Tap above to receive live discount broadcasts and real-time kitchen tracking</span>
+        </div>
+
+        <div class="vip-menu-perks">
+          <h4 class="vip-perks-title">👑 Your Active VIP Privileges & Exclusive Menu:</h4>
+          <div class="vip-perks-grid">
+            <div class="vip-perk-card">
+              <span class="perk-icon">⚡</span>
+              <div>
+                <strong>Priority Orders</strong>
+                <p>Express kitchen dispatch for VIP members</p>
+              </div>
+            </div>
+            <div class="vip-perk-card">
+              <span class="perk-icon">🎁</span>
+              <div>
+                <strong>15% Deal Unlocked</strong>
+                <p>Use promo code <strong>JOHAR15</strong> at checkout</p>
+              </div>
+            </div>
+            <div class="vip-perk-card">
+              <span class="perk-icon">🔔</span>
+              <div>
+                <strong>Live Flash Deals</strong>
+                <p>Real-time dining alerts sent straight to your phone</p>
+              </div>
+            </div>
+            <div class="vip-perk-card">
+              <span class="perk-icon">🍽️</span>
+              <div>
+                <strong>Chef Special Menu</strong>
+                <p>Authentic Karahi, Handi, BBQ & Cultural Sindhi feast</p>
+              </div>
+            </div>
+          </div>
+
+          <a href="#menu" class="btn-vip-explore-menu" id="btn-vip-explore-menu">🍽️ Explore Full VIP Menu</a>
         </div>
       </div>
     </div>

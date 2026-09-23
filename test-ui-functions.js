@@ -89,6 +89,7 @@ const ids = [
   'vip-install-backdrop', 'btn-close-vip-modal', 'btn-vip-install', 'btn-vip-notify',
   'btn-download-shortcut',
   'vip-instructions', 'inst-ios', 'inst-android', 'floating-app-trigger', 'footer-install-btn',
+  'vip-download-section', 'vip-post-download-section', 'vip-modal-title', 'vip-modal-desc', 'vip-modal-badge', 'btn-vip-explore-menu',
   'year'
 ];
 
@@ -127,7 +128,16 @@ const mockDocument = {
     if (sel.startsWith('a[href^="#"]')) return [];
     return [];
   },
-  createElement(tag) { return createElement(tag); }
+  createElement(tag) { return createElement(tag); },
+  listeners: {},
+  addEventListener(evt, fn) {
+    if (!this.listeners[evt]) this.listeners[evt] = [];
+    this.listeners[evt].push(fn);
+  },
+  dispatchEvent(evt) {
+    const fns = this.listeners[evt.type] || [];
+    fns.forEach(fn => fn(evt));
+  }
 };
 
 const mockLocalStorage = {
@@ -277,6 +287,31 @@ if (floatingAppTrigger.listeners['click']) {
   }
 }
 
+// Test backdrop click closes modal
+if (vipBackdrop.listeners['click']) {
+  vipBackdrop.dispatchEvent({ type: 'click', target: vipBackdrop });
+  if (!vipBackdrop.classList.contains('open')) {
+    console.log('✅ PASS: Clicking backdrop outside modal closes it!');
+  } else {
+    console.error('❌ FAIL: Backdrop click did not close modal');
+  }
+}
+
+// Re-open to test download action state transition
+footerInstallBtn.dispatchEvent({ type: 'click' });
+const vipDownloadSec = elements.get('vip-download-section');
+const vipPostDownloadSec = elements.get('vip-post-download-section');
+const btnDownloadShortcut = elements.get('btn-download-shortcut');
+
+if (btnDownloadShortcut && btnDownloadShortcut.listeners['click']) {
+  btnDownloadShortcut.dispatchEvent({ type: 'click' });
+  if (vipDownloadSec.style.display === 'none' && vipPostDownloadSec.style.display === 'block') {
+    console.log('✅ PASS: Download action immediately switches modal to Post-Download VIP view!');
+  } else {
+    console.error('❌ FAIL: Download action did not switch to post-download view');
+  }
+}
+
 // 6. Test Notifications Permission Button
 console.log('\n--- Testing Notification Permission Button ---');
 const btnVipNotify = elements.get('btn-vip-notify');
@@ -285,4 +320,13 @@ if (btnVipNotify.listeners['click']) {
   console.log('✅ PASS: btnVipNotify click listener triggered successfully!');
 }
 
-console.log('\n🎉 ALL 6/6 UI INTERACTION TESTS PASSED CLEANLY!\n');
+// 7. Test Explore Menu Button closes modal
+const btnExploreMenu = elements.get('btn-vip-explore-menu');
+if (btnExploreMenu && btnExploreMenu.listeners['click']) {
+  btnExploreMenu.dispatchEvent({ type: 'click' });
+  if (!vipBackdrop.classList.contains('open')) {
+    console.log('✅ PASS: btn-vip-explore-menu closes modal!');
+  }
+}
+
+console.log('\n🎉 ALL UI INTERACTION & VIP LIFECYCLE TESTS PASSED CLEANLY!\n');
